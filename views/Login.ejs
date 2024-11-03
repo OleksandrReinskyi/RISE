@@ -1,0 +1,24 @@
+<main>
+    <form action="/login" method="post">
+        <label>
+            Ім'я
+            <input type="text" required name="userName" id="inputName">
+        </label>
+        <label for="">
+            Пароль
+            <input type="password" required name="userPassword" id="inputPassword">
+        </label>
+        <label for="">
+            <input type="radio"  selected name="type" value="pupil"> Учень
+        </label>
+        <label for="">
+            <input type="radio" name="type" value="teacher"> Вчитель
+        </label>
+        <label for="">
+            <input type="radio" name="type" value="admin"> Адмін
+        </label>
+        <button type="submit" id="submit">Ввійти</button>
+
+    </form>
+</main>
+<script src="static/JS/login.js"></script>
