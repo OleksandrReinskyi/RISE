@@ -174,23 +174,17 @@ app.route("/order")
         let menuQuery = `
         SELECT ingridients FROM menu WHERE repeatDay = ?;
         `; // 1 read operation
-    
-    
-        let ingridientsQuery = `SELECT * FROM ingridient WHERE id = ?`;// max 6 read operations
-    
+        
         let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,userId]))[0];
         let pupilsThatDidntOrder = (await pool.query(allPupilsQuery,[userId,day,month,year]))[0]; 
     
         let thisDayMenu = (await pool.query(menuQuery,[thisDayOfWeek]))[0][0]["ingridients"]; // ingridients table_header 
-        let ingridients = [];
       
         let allPupils = [...pupilsThatDidntOrder,...pupilsThatOrdered]
     
-        for await(let i of thisDayMenu){
-            ingridients.push((await pool.query(ingridientsQuery,[i]))[0][0]);
-        }
+
         
-        let data = {pupils: allPupils, ingridients:ingridients,day:day,month:month,year:year, toString(){
+        let data = {pupils: allPupils,day:day,month:month,year:year, toString(){
             return JSON.stringify(this);
         }};
     
