@@ -1,2 +1,28 @@
 <%- include("../partials/TeacherUserHeader.ejs")%>
 
+<main>
+    <table>
+        <thead>
+            <tr>
+                <th rowspan="2">Користувачі</th>
+                <th colspan="<%=data.ingridients.length%>">Меню</th>
+                <th rowspan="2">Ціна</th>
+            </tr>
+            <tr>
+                <% data.ingridients.forEach(element => {%>
+                     <th data-id="<%=element.id%>"><%=element._name%>:<%=element._price%></th>`
+                <%});%>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+
+    <script>
+        window.serverData = JSON.parse("<%=data%>".replace(/&#34;/g,"\""));
+        console.log(window.serverData);
+    </script>
+</main> 
+ 

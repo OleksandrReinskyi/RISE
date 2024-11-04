@@ -6,6 +6,7 @@ import jwt from "jsonwebtoken"
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
 
+
 let salt = bcrypt.genSaltSync(10);
 let jwt_secret = "niggaballs";
 
@@ -134,45 +135,67 @@ app.route("/order")
 .get(async(req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     let {day,month,year} = req.query;
-    let teacherId = info.id; 
-
+    
+    let userId = info.id; 
     let thisDayOfWeek = ((new Date(year,month-1,day)).getDay()) 
 
-    let pupilsThatOrderedQuery = ` 
+    if(info.type == "pupil"){
+        let pupilsOrderQuery = `
+        SELECT * FROM \`order\` WHERE _day=? AND _month=? AND _year=? AND user_id = ? AND user_type="pupil";
+        `
+        console.log(day,month,year)
+        let pupilsOrder = await pool.query(pupilsOrderQuery,[day,month,year,userId])[0];
+        let ingridients = pupilsOrder["ingridients"];
+        console.log(pupilsOrder)
+
+    }else if(info.type=="teacher"){
+
+    
+        let pupilsThatOrderedQuery = ` 
+            
+            SELECT user_id, ingridients, _name, privileged FROM 
+                (SELECT * FROM \`order\` WHERE _day = ? AND _month = ? AND _year = ? AND user_id IN 
+                        (SELECT id FROM pupil WHERE class = (SELECT class_tutor FROM teacher WHERE id = ? LIMIT 1))
+                        AND user_type="pupil")
+                    AS pupils_ordered
+                CROSS JOIN pupil ON 
+            pupils_ordered.user_id=pupil.id
+            
+        `;// 4 read operations 
+    
+    
+    
+        let allPupilsQuery = `
+        SELECT id as user_id, _name, privileged FROM pupil WHERE class = 
+        ( SELECT class_tutor FROM TEACHER WHERE id = ? LIMIT 1)
+         AND id NOT IN (SELECT user_id FROM \`order\` WHERE _day = ? AND _month = ? AND _year = ?);
+        `; // 3 read operations
+    
+        let menuQuery = `
+        SELECT ingridients FROM menu WHERE repeatDay = ?;
+        `; // 1 read operation
+    
+    
+        let ingridientsQuery = `SELECT * FROM ingridient WHERE id = ?`;// max 6 read operations
+    
+        let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,userId]))[0];
+        let pupilsThatDidntOrder = (await pool.query(allPupilsQuery,[userId,day,month,year]))[0]; 
+    
+        let thisDayMenu = (await pool.query(menuQuery,[thisDayOfWeek]))[0][0]["ingridients"]; // ingridients table_header 
+        let ingridients = [];
+      
+        let allPupils = [...pupilsThatDidntOrder,...pupilsThatOrdered]
+    
+        for await(let i of thisDayMenu){
+            ingridients.push((await pool.query(ingridientsQuery,[i]))[0][0]);
+        }
         
-        SELECT user_id, ingridients, _name, privileged FROM 
-            (SELECT * FROM \`order\` WHERE _day = ? AND _month = ? AND _year = ? AND user_id IN 
-                    (SELECT id FROM pupil WHERE class = (SELECT class_tutor FROM teacher WHERE id = ? LIMIT 1))
-                    AND user_type="pupil")
-                AS pupils_ordered
-            CROSS JOIN pupil ON 
-        pupils_ordered.user_id=pupil.id
-        
-    `;// 4 read operations 
-
-
-
-    let allPupilsQuery = `
-    SELECT id as user_id, _name, privileged FROM pupil WHERE class = 
-    ( SELECT class_tutor FROM TEACHER WHERE id = ? LIMIT 1)
-     AND id NOT IN (SELECT user_id FROM \`order\` WHERE _day = ? AND _month = ? AND _year = ?);
-    `; // 3 read operations
-
-    let menuQuery = `
-    SELECT ingridients FROM menu WHERE repeatDay = ?;
-    `; // 1 read operation
-
-
-    let ingridientsQuery = `SELECT _name,_price,photo FROM ingridient WHERE id = ?`;// max 6 read operations
-
-    let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,teacherId]))[0];
-    let pupilsThatDidntOrder = (await pool.query(allPupilsQuery,[teacherId,day,month,year]))[0]; 
-
-    let thisDayMenu = (await pool.query(menuQuery,[thisDayOfWeek]))[0][0]["ingridients"]; // ingridients table_header 
-    let ingridients = [];
-
-    for await(let i of thisDayMenu){
-        ingridients.push((await pool.query(ingridientsQuery,[i]))[0]);
+        let data = {pupils: allPupils, ingridients:ingridients,day:day,month:month,year:year, toString(){
+            return JSON.stringify(this);
+        }};
+    
+    
+        res.render("Teacher/Order.ejs",{data:data});
     }
 
 
