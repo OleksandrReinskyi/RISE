@@ -113,7 +113,7 @@ app.route("/login")
             id:user.id,
             name:userName,
             login:user._login,
-            user_type: user.user_type
+            user_type: type
         };
 
         if(type==SQLUserType.teacher){
@@ -169,15 +169,14 @@ app.route("/order")
             
             SELECT user_id, _name, privileged FROM pupil as ppl 
             CROSS JOIN \`order\` as ord ON ord.user_id = ppl.id 
-            WHERE ord._day = ? AND ord._month = ? AND ord._year = ? AND ord.user_type = ?  AND ppl.class = ?;
+            WHERE ord._day = ? AND ord._month = ? AND ord._year = ?  AND ord.user_type = ? AND ppl.class = ?;
             
         `;// 4 read operations 
     
     
     
-        let pupilsThatDidntOrderQuery = `
-        SELECT id as user_id, _name, privileged FROM pupil WHERE class = ?
-         AND id NOT IN (SELECT user_id FROM \`order\` WHERE _day = ? AND _month = ? AND _year = ? AND user_type =?);
+        let allPupilsQuery = `
+        SELECT id as user_id, _name, privileged FROM pupil WHERE class = ?;
         `; // 3 read operations
     
         let menuQuery = `
@@ -187,17 +186,28 @@ app.route("/order")
         let ingridientsQuery = `SELECT _name, photo FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
         
         let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
-        let pupilsThatDidntOrder = (await pool.query(pupilsThatDidntOrderQuery,[class_tutor,day,month,year,SQLUserType.pupil]))[0]; 
+        let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
     
         let thisDayMenu = (await pool.query(menuQuery,[day,month,year]))[0][0]; // ingridients table_header 
         let thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
 
 
-        let allPupils = [...pupilsThatDidntOrder,...pupilsThatOrdered]
     
-        console.log(pupilsThatOrdered,pupilsThatDidntOrder,thisDayMenu,thisDayIngridients)
+        console.log(pupilsThatOrdered,allPupils,thisDayMenu,thisDayIngridients)
         
-        let data = {pupils: allPupils,day:day,month:month,year:year, toString(){
+        let data = {allPupils: allPupils,
+            pupilsThatOrdered:pupilsThatOrdered,
+            menu:{
+                info:{day:day,
+                    month:month,
+                    year:year,
+                    id:thisDayMenu.id,
+                    price:thisDayMenu.price,
+                    name:thisDayMenu._name,
+                },
+                ingridients: thisDayIngridients
+            },
+            toString(){
             return JSON.stringify(this);
         }};
     

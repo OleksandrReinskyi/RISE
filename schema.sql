@@ -18,9 +18,7 @@ CREATE TABLE teacher(
     class_tutor integer DEFAULT NULL ,
     _login varchar(255) NOT NULL UNIQUE,
     _password text NOT NULL,
-    user_type INTEGER NOT NULL,
 
-    FOREIGN KEY (user_type) REFERENCES user_type(id),
     FOREIGN KEY (class_tutor) REFERENCES class(id)
 );
 
@@ -31,9 +29,7 @@ CREATE TABLE pupil(
     _password text NOT NULL,
     class integer NOT NULL,
     privileged boolean NOT NULL,
-    user_type INTEGER NOT NULL,
 
-    FOREIGN KEY (user_type) REFERENCES user_type(id),
     FOREIGN KEY (class) REFERENCES class(id)
 );
 
@@ -43,10 +39,7 @@ CREATE TABLE admin(
     id integer PRIMARY KEY AUTO_INCREMENT,
     _name varchar(255) NOT NULL UNIQUE,
     _login varchar(255) NOT NULL UNIQUE,
-    _password text NOT NULL,
-    user_type INTEGER NOT NULL,
-
-    FOREIGN KEY (user_type) REFERENCES user_type(id)
+    _password text NOT NULL
 );
 
 
@@ -108,11 +101,11 @@ INSERT INTO user_type VALUES(1,"pupil");
 INSERT INTO user_type VALUES(2,"teacher");
 INSERT INTO user_type VALUES(3,"admin");
 
-INSERT INTO pupil VALUES(1,"oleksandr","alex","12345",11,false,1);
-INSERT INTO pupil VALUES(2,"orest","orest","orest",11,false,1);
-INSERT INTO pupil VALUES(3,"slavik","slavik","123",11,true,1);
+INSERT INTO pupil VALUES(1,"oleksandr","alex","12345",11,false);
+INSERT INTO pupil VALUES(2,"orest","orest","orest",11,false);
+INSERT INTO pupil VALUES(3,"slavik","slavik","123",11,true);
 
-INSERT INTO teacher VALUES(1,"olena",11,"olena","password",2); 
+INSERT INTO teacher VALUES(1,"olena",11,"olena","password"); 
 
 INSERT INTO `order` VAlUES(1,1,11,2024,1,1);
 INSERT INTO `order` VAlUES(2,1,11,2024,1,2);
