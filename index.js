@@ -167,7 +167,7 @@ app.route("/order")
     
         let pupilsThatOrderedQuery = ` 
             
-            SELECT user_id, _name, privileged FROM pupil as ppl 
+            SELECT user_id, _name, privileged, "Y" as ordered FROM pupil as ppl 
             CROSS JOIN \`order\` as ord ON ord.user_id = ppl.id 
             WHERE ord._day = ? AND ord._month = ? AND ord._year = ?  AND ord.user_type = ? AND ppl.class = ?;
             
@@ -176,14 +176,14 @@ app.route("/order")
     
     
         let allPupilsQuery = `
-        SELECT id as user_id, _name, privileged FROM pupil WHERE class = ?;
+        SELECT id as user_id, _name, privileged, "N" as ordered FROM pupil WHERE class = ?;
         `; // 3 read operations
     
         let menuQuery = `
         SELECT id,_name,price FROM menu WHERE _day = ? AND _month = ? AND _year = ?; 
         `; // 1 read operation
 
-        let ingridientsQuery = `SELECT _name, photo FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
+        let ingridientsQuery = `SELECT _name, photo, _description FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
         
         let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
         let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
@@ -191,9 +191,6 @@ app.route("/order")
         let thisDayMenu = (await pool.query(menuQuery,[day,month,year]))[0][0]; // ingridients table_header 
         let thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
 
-
-    
-        console.log(pupilsThatOrdered,allPupils,thisDayMenu,thisDayIngridients)
         
         let data = {allPupils: allPupils,
             pupilsThatOrdered:pupilsThatOrdered,

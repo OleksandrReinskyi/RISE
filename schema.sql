@@ -58,7 +58,8 @@ CREATE TABLE `order`(
 CREATE TABLE ingridient(
     id integer PRIMARY KEY AUTO_INCREMENT,
     _name TEXT NOT NULL,
-    photo VARCHAR(100) DEFAULT "imgs/static.png"
+    photo VARCHAR(100) DEFAULT "imgs/static.png",
+    _description TEXT NOT NULL 
 );
 
 
@@ -83,9 +84,9 @@ INSERT INTO class VALUES(11,"11-B");
 
 
 
-INSERT INTO ingridient(id,_name) VALUES (1,"Kotlet");
-INSERT INTO ingridient(id,_name) VALUES (2,"Chaiok");
-INSERT INTO ingridient(id,_name) VALUES (3,"Salatik");
+INSERT INTO ingridient(id,_name,_description) VALUES (1,"Kotlet","Котлета зі свинини");
+INSERT INTO ingridient(id,_name,_description) VALUES (2,"Chaiok","Чай зелений без цукру");
+INSERT INTO ingridient(id,_name,_description) VALUES (3,"Salatik","Салат зі шпинатом, стружкою буряка та горохом");
 
 INSERT INTO menu VAlUES(1,"Full house",1,11,2024,60);
 INSERT INTO menu VAlUES(2,"Popej Govna",2,11,2024,60);
@@ -110,3 +111,5 @@ INSERT INTO teacher VALUES(1,"olena",11,"olena","password");
 INSERT INTO `order` VAlUES(1,1,11,2024,1,1);
 INSERT INTO `order` VAlUES(2,1,11,2024,1,2);
 INSERT INTO `order` VAlUES(3,1,11,2024,2,1);
+INSERT INTO `order` VAlUES(4,1,11,2024,3,1);
+

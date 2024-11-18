@@ -3,23 +3,23 @@
 <main>
     <section id="menu">
         <div id="menu_wrapper">
-            <div id="menu_info">
-                <h1 id="menu_name"></h1>
-                <h3 id="menu_price"></h3>
-            </div>
-            <div class="menu_body">
-                <div class="menu_item">
-                    <img src="" alt="" class="item_image">
-                    <div class="item_info">
-                        <h1 class="item_name"></h1>
-                        <p class="item_description"></p>
-                    </div>
-                </div>
-            </div>
+            
         </div>
 
     </section>
 
+    <form id="orders" >
+        <table id="orders_table">
+            <thead>
+                <tr>
+                    <th>Учні</th>
+                    <th>Порція</th>
+                </tr>
+            </thead>
+
+        </table>
+        <button type="submit">Замовити</button>
+    </form>
 
     <script>
         window.serverData = JSON.parse("<%=data%>".replace(/&#34;/g,"\""));
