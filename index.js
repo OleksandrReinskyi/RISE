@@ -9,14 +9,24 @@ import connectDB from "./api/connectDB.js";
 
 let salt = bcrypt.genSaltSync(10);
 let jwt_secret = "niggaballs";
+let stopOrdersHour = 9;
 
-const SQLUserType = {
+const SQLUserType = { // must have the same values as SQL table "user_type"
     pupil:1,
     teacher:2,
     admin:3
 }
 
-async function findUser(name,password,type){
+function timeCheck(dayAccessed,monthAccessed,yearAccessed){ 
+    const dateNow = (new Date(new Date().toLocaleString('en-US', { timeZone: 'EET' }))).getTime();
+    let dateAccessed = (new Date(yearAccessed, monthAccessed, dayAccessed)).getTime();
+
+    if(dateNow>dateAccessed){
+        throw new TypeError(`Нажаль замовляти обід після ${stopOrdersHour} години не можна!`)
+    }
+}   
+
+async function findUser(name,password,type){ // returns user data if it is present in database
 
     let rows = [];
     switch(type){
@@ -41,7 +51,7 @@ async function findUser(name,password,type){
 }
 
 
-function verifyJWT(token){
+function verifyJWT(token){ // makes JWT verification async to control it more convenietly
     return new Promise((res,rej)=>{
         jwt.verify(token,jwt_secret,{},(err,info)=>{
             if(err){
@@ -52,15 +62,15 @@ function verifyJWT(token){
         })
     })
 
-}
+} 
 
-function renderHomeJWT(req,res,type){
+function renderHomeJWT(req,res,type){ // renders the home page accroding to logined userType
     switch(type){
         case SQLUserType.teacher: 
-            res.render("Teacher/Home.ejs");
+            res.render("Home.ejs");
             break;
         case SQLUserType.pupil:
-            res.render("Pupil/Home.ejs");
+            res.render("Home.ejs");
             break;
         case SQLUserType.admin:
             res.render("Admin/Home.ejs");
@@ -70,12 +80,44 @@ function renderHomeJWT(req,res,type){
     }
 }
 
-async function redirectJWT(req,res,location){
+async function redirectJWT(req,res,location){ //redirects to some page if there's no JWT token of authorisation (eg it throws an error)
     try{
         return await verifyJWT(req.cookies.token)
     }catch{
         res.redirect(location);
         return null;
+    }
+
+}
+
+async function requestFromUser(req,res,query){
+    let info = await redirectJWT(req,res,"/login")
+    let body = req.body;
+    let message;
+    
+
+    if(info.user_type == SQLUserType.teacher){
+        try{
+            timeCheck(body.day,body.month,body.year)
+            
+            for await(let item of body.pupils){
+                await pool.query(query,[item,SQLUserType.pupil,body.day,body.month,body.year]);
+            } 
+            message = "Ваш запит успішно опрацьовано!"
+            res.statusCode = 200;
+        } 
+        catch(e){
+            
+            if(e instanceof TypeError){
+                message = e.message
+                res.statusCode = 400;
+            }else{
+                message = "Сталася помилка на сервері!";
+                res.statusCode = 500;
+            }
+        }finally{
+            res.send(message);
+        }
     }
 
 }
@@ -101,9 +143,9 @@ app.route("/login")
     }catch{
         res.render("Login.ejs")
     }
-
+ 
 })
-.post(async (req,res)=>{
+.post(async (req,res)=>{ 
     let {userName,userPassword,type} = req.body;
     type = Number(type);
     let user = (await findUser(userName,userPassword,type))[0];// bcrypt.hash 
@@ -131,12 +173,12 @@ app.route("/login")
     }else{
         res.status(404).send("User Not Found!");
     } 
-})
+}) 
 
 app.get('/home',async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     if(!info) return;
-
+ 
     renderHomeJWT(req,res,info.user_type);
     
 }) 
@@ -152,7 +194,11 @@ app.route("/order")
     
     let userId = info.id; 
     let userType = info.user_type;
-    let thisDayOfWeek = ((new Date(year,month-1,day)).getDay()) 
+    let clientData = {};
+
+    let menuQuery = `
+    SELECT id,_name,price FROM menu WHERE _day = ? AND _month = ? AND _year = ?;`; 
+    let ingridientsQuery = `SELECT _name, photo, _description FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
 
 
     if(userType == SQLUserType.pupil){
@@ -160,41 +206,25 @@ app.route("/order")
         SELECT * FROM \`order\` WHERE _day=? AND _month=? AND _year=? AND user_id = ? AND user_type = ?;
         `
 
-        let pupilsOrder = await pool.query(pupilsOrderQuery,[day,month,year,userId,userType])[0];
+        //let pupilsOrder = await pool.query(pupilsOrderQuery,[day,month,year,userId,userType])[0][0];
+
+        res.render("Pupil/Order.ejs")
 
     }else if(userType == SQLUserType.teacher){
         let class_tutor = info.class_tutor;
-    
-        let pupilsThatOrderedQuery = ` 
-            
-            SELECT user_id, _name, privileged, "Y" as ordered FROM pupil as ppl 
-            CROSS JOIN \`order\` as ord ON ord.user_id = ppl.id 
-            WHERE ord._day = ? AND ord._month = ? AND ord._year = ?  AND ord.user_type = ? AND ppl.class = ?;
-            
-        `;// 4 read operations 
-    
-    
-    
-        let allPupilsQuery = `
-        SELECT id as user_id, _name, privileged, "N" as ordered FROM pupil WHERE class = ?;
-        `; // 3 read operations
-    
-        let menuQuery = `
-        SELECT id,_name,price FROM menu WHERE _day = ? AND _month = ? AND _year = ?; 
-        `; // 1 read operation
-
-        let ingridientsQuery = `SELECT _name, photo, _description FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
         
-        let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
-        let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
-    
+        let thisDayIngridients;
         let thisDayMenu = (await pool.query(menuQuery,[day,month,year]))[0][0]; // ingridients table_header 
-        let thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
-
         
-        let data = {allPupils: allPupils,
-            pupilsThatOrdered:pupilsThatOrdered,
-            menu:{
+        if(!thisDayMenu){
+            clientData.menu = {
+                info:{day:day,
+                    month:month,
+                    year:year,
+                }}
+        }else{
+            thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
+            clientData.menu = {
                 info:{day:day,
                     month:month,
                     year:year,
@@ -203,17 +233,69 @@ app.route("/order")
                     name:thisDayMenu._name,
                 },
                 ingridients: thisDayIngridients
-            },
-            toString(){
+            }
+        } 
+
+       
+
+
+        let pupilsThatOrderedQuery = ` 
+            
+            SELECT user_id, _name, privileged, "Y" as ordered FROM pupil as ppl 
+            CROSS JOIN \`order\` as ord ON ord.user_id = ppl.id 
+            WHERE ord._day = ? AND ord._month = ? AND ord._year = ?  AND ord.user_type = ? AND ppl.class = ?;
+            
+        `;// 4 read operations 
+    
+        let allPupilsQuery = `
+        SELECT id as user_id, _name, privileged, "N" as ordered FROM pupil WHERE class = ?;
+        `; // 3 read operations
+
+        let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
+        let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
+        
+
+        let canOrderToday = true;
+
+        try{timeCheck(day,month,year)}
+        catch(e){
+            canOrderToday = false;
+        }
+        
+        
+        clientData.allPupils = allPupils;
+        clientData.pupilsThatOrdered=pupilsThatOrdered;
+        clientData.canOrderToday = canOrderToday;
+        clientData.toString = function(){
             return JSON.stringify(this);
-        }};
+        }
     
     
-        res.render("Teacher/Order.ejs",{data:data});
+        res.render("Teacher/Order.ejs",{data:clientData});
     }
 
 
 })  
+.delete(async(req,res)=>{
+    let deleteQuery = `DELETE FROM \`order\` 
+    WHERE user_id = ? AND user_type = ? 
+    AND _day=? AND _month=? AND _year=?;`;
+
+    requestFromUser(req,res,deleteQuery)
+    
+})
+.post(async(req,res)=>{
+    let postQuery = `INSERT INTO \`order\` (user_id,user_type,_day,_month,_year) VALUES(?,?,?,?,?);`
+    
+    requestFromUser(req,res,postQuery)
+
+
+})
+
+
+
+
+
 
 app.get("/profile",async (req,res)=>{ 
     let info = await redirectJWT(req,res,"/login");
@@ -228,4 +310,3 @@ app.route("/logout").get((req,res)=>{
 })
 
 
- 

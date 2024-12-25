@@ -1,12 +1,7 @@
 <%- include("../partials/TeacherUserHeader.ejs")%>
 
 <main>
-    <section id="menu">
-        <div id="menu_wrapper">
-            
-        </div>
-
-    </section>
+    <%- include("../partials/TeacherUserMenu.ejs")%>
 
     <form id="orders" >
         <table id="orders_table">
@@ -26,4 +21,6 @@
     </script>
 
 </main> 
- <script src="JS/Teacher/Order.js"></script>
+ <script defer src="JS/RenderMenu.js"></script>
+ <script defer src="JS/Teacher/RenderPupils.js"></script>
+ <script defer src="JS/Teacher/RequestLogic.js"></script>
