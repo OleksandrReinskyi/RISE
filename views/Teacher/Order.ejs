@@ -16,9 +16,7 @@
         <button type="submit">Замовити</button>
     </form>
 
-    <script>
-        window.serverData = JSON.parse("<%=data%>".replace(/&#34;/g,"\""));
-    </script>
+    <%- include("../partials/TeacheruserServerData.ejs")%>
 
 </main> 
  <script defer src="JS/RenderMenu.js"></script>

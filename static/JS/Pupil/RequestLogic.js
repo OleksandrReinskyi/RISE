@@ -1,0 +1,1 @@
+const {order} = window.serverData;

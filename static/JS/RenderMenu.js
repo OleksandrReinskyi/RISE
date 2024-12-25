@@ -2,8 +2,6 @@
 
 const menuElement = document.querySelector("#menu_wrapper");
 
-const {menu} = window.serverData;
-
 function renderMenu(menu){
     if(!menu.info.id){
         menuElement.insertAdjacentHTML("beforeend",renderWarning(menu.info))
@@ -61,6 +59,7 @@ function createMenuItem(item){
 if(window.serverData == undefined){
     alert("Щось пішло не так. Це не Ви, це сервер. Спробуйте перезавантажити сторінку.")
 }else{
+    const {menu} = window.serverData;
     document.addEventListener("DOMContentLoaded",(addEventListener)=>{
         renderMenu(menu)
      }) 

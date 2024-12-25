@@ -183,7 +183,39 @@ app.get('/home',async (req,res)=>{
     
 }) 
 
+async function getMenu(day,month,year){
+    let menuQuery = `
+    SELECT id,_name,price FROM menu WHERE _day = ? AND _month = ? AND _year = ?;`; 
+    let ingridientsQuery = `SELECT _name, photo, _description FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
+    
+    let menu = {};
 
+    let thisDayIngridients;
+    let thisDayMenu = (await pool.query(menuQuery,[day,month,year]))[0][0]; // ingridients table_header 
+    
+    if(!thisDayMenu){
+        menu = {
+            info:{day:day,
+                month:month,
+                year:year,
+            }}
+    }else{
+        thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
+        menu = {
+            info:{day:day,
+                month:month,
+                year:year,
+                id:thisDayMenu.id,
+                price:thisDayMenu.price,
+                name:thisDayMenu._name,
+            },
+            ingridients: thisDayIngridients
+        }
+    } 
+
+    return menu;
+
+}
 
 app.route("/order")
 .get(async(req,res)=>{
@@ -194,50 +226,39 @@ app.route("/order")
     
     let userId = info.id; 
     let userType = info.user_type;
+    
+    
+    
     let clientData = {};
 
-    let menuQuery = `
-    SELECT id,_name,price FROM menu WHERE _day = ? AND _month = ? AND _year = ?;`; 
-    let ingridientsQuery = `SELECT _name, photo, _description FROM ingridient WHERE id IN (SELECT ingridient_id FROM menu_ingridients WHERE menu_id = ?); `;
 
+    try{
+        timeCheck(day,month,year)
+        clientData.canOrderToday = true;
+    }
+    catch(e){
+        clientData.canOrderToday = false;
+    }
+    clientData.toString = function(){
+        return JSON.stringify(this);
+    }
 
     if(userType == SQLUserType.pupil){
         let pupilsOrderQuery = `
         SELECT * FROM \`order\` WHERE _day=? AND _month=? AND _year=? AND user_id = ? AND user_type = ?;
         `
 
-        //let pupilsOrder = await pool.query(pupilsOrderQuery,[day,month,year,userId,userType])[0][0];
+        let pupilsOrder = (await pool.query(pupilsOrderQuery,[day,month,year,userId,SQLUserType.pupil]))[0][0];
 
-        res.render("Pupil/Order.ejs")
+        clientData.menu = await getMenu(day,month,year);
+        clientData.order = pupilsOrder;
 
+        res.render("Pupil/Order.ejs", {userId:userId,data:clientData})
+ 
     }else if(userType == SQLUserType.teacher){
         let class_tutor = info.class_tutor;
-        
-        let thisDayIngridients;
-        let thisDayMenu = (await pool.query(menuQuery,[day,month,year]))[0][0]; // ingridients table_header 
-        
-        if(!thisDayMenu){
-            clientData.menu = {
-                info:{day:day,
-                    month:month,
-                    year:year,
-                }}
-        }else{
-            thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
-            clientData.menu = {
-                info:{day:day,
-                    month:month,
-                    year:year,
-                    id:thisDayMenu.id,
-                    price:thisDayMenu.price,
-                    name:thisDayMenu._name,
-                },
-                ingridients: thisDayIngridients
-            }
-        } 
-
        
-
+        clientData.menu = await getMenu(day,month,year);
 
         let pupilsThatOrderedQuery = ` 
             
@@ -254,23 +275,10 @@ app.route("/order")
         let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
         let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
         
-
-        let canOrderToday = true;
-
-        try{timeCheck(day,month,year)}
-        catch(e){
-            canOrderToday = false;
-        }
-        
         
         clientData.allPupils = allPupils;
         clientData.pupilsThatOrdered=pupilsThatOrdered;
-        clientData.canOrderToday = canOrderToday;
-        clientData.toString = function(){
-            return JSON.stringify(this);
-        }
-    
-    
+
         res.render("Teacher/Order.ejs",{data:clientData});
     }
 

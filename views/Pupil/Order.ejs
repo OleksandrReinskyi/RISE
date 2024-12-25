@@ -3,7 +3,10 @@
 <main>
     <%- include("../partials/TeacherUserMenu.ejs")%>
 
-    <form id="order">
-        
+    <form id="orders">
+        <p>Не замовлено</p>
+        <button type="submit">Замовити</button>
     </form>
 </main>
+<%- include("../partials/TeacheruserServerData.ejs")%>
+<script defer src="JS/RenderMenu.js"></script>
