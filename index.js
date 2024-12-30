@@ -1,21 +1,27 @@
 import express from "express";
 import dotenv from "dotenv"
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken"
+import fs from "fs"
+import path from "path"
+import rateLimit from "express-rate-limit";
+
 
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
 
 
-let salt = bcrypt.genSaltSync(10);
-let jwt_secret = "niggaballs";
-let stopOrdersHour = 9;
+const salt = bcrypt.genSaltSync(10);
+const jwt_secret = process.env.JWT_SECRET;;
+const stopOrdersHour = 9;
 
 const SQLUserType = { // must have the same values as SQL table "user_type"
     pupil:1,
     teacher:2,
     admin:3
 }
+
+const TextUserType = ["pupil","teacher","admin"]
 
 function timeCheck(dayAccessed,monthAccessed,yearAccessed){ 
     const dateNow = (new Date(new Date().toLocaleString('en-US', { timeZone: 'EET' }))).getTime();
@@ -26,28 +32,32 @@ function timeCheck(dayAccessed,monthAccessed,yearAccessed){
     }
 }   
 
-async function findUser(name,password,type){ // returns user data if it is present in database
+async function findUser(login,password,type){ // returns user data if it is present in database
 
-    let rows = [];
+    let rows;
     switch(type){
         case SQLUserType.teacher:
             [rows] = await pool.query(`
-                SELECT * FROM teacher WHERE _login = ? AND _password = ?;`
-                ,[name,password]);
+                SELECT * FROM teacher WHERE _login = ?;`
+                ,[login]);
             break;
         case SQLUserType.pupil:
             [rows] = await pool.query(`
-                SELECT * FROM pupil WHERE _login = ? AND _password = ?;`
-                ,[name,password]);
+                SELECT * FROM pupil WHERE _login = ?;`
+                ,[login]);
             break;
         case SQLUserType.admin:
             [rows] = await pool.query(`
-                SELECT * FROM admin WHERE _login = ? AND _password = ?;`
-                ,[name,password]);
+                SELECT * FROM admin WHERE _login = ?;`
+                ,[login]);
             break;
     }
- 
-    return rows;
+    if (rows.length > 0 && bcrypt.compareSync(password, rows[0]._password)) {
+        return rows[0];
+    }else{
+        return null;
+    }
+
 }
 
 
@@ -67,13 +77,13 @@ function verifyJWT(token){ // makes JWT verification async to control it more co
 function renderHomeJWT(req,res,type){ // renders the home page accroding to logined userType
     switch(type){
         case SQLUserType.teacher: 
-            res.render("Home.ejs");
+            res.render("Home.ejs",{admin:false});
             break;
         case SQLUserType.pupil:
-            res.render("Home.ejs");
+            res.render("Home.ejs",{admin:false});
             break;
         case SQLUserType.admin:
-            res.render("Admin/Home.ejs");
+            res.render("Home.ejs",{admin:true});
             break;
         default:
             res.status(404).send("Wrong user type!");
@@ -90,37 +100,65 @@ async function redirectJWT(req,res,location){ //redirects to some page if there'
 
 }
 
-async function requestFromUser(req,res,query){
+async function handleTeacherRequest(body,query) {
+    for await(let item of body.pupils){
+        await pool.query(query,[item,SQLUserType.pupil,body.day,body.month,body.year]);
+    } 
+}
+
+async function handleStudentRequest(id,body,query) {
+    await pool.query(query,[id,SQLUserType.pupil,body.day,body.month,body.year]);
+}
+
+async function requestFromUser(req,res){
     let info = await redirectJWT(req,res,"/login")
     let body = req.body;
     let message;
+    let query
+
+    if(req.method == "DELETE"){
+        query = `DELETE FROM \`order\` 
+        WHERE user_id = ? AND user_type = ? 
+        AND _day=? AND _month=? AND _year=?;`;
+    }else if(req.method == "POST"){
+        query = `INSERT INTO \`order\` (user_id,user_type,_day,_month,_year) 
+        VALUES(?,?,?,?,?);`
+    }
+    try{
+        timeCheck(body.day,body.month,body.year)
+        if(info.user_type == SQLUserType.teacher){
+            handleTeacherRequest(body,query);
+        }else if(info.user_type == SQLUserType.pupil){
+            handleStudentRequest(info.id,body,query)
+        }
+
+        message = "Ваш запит успішно опрацьовано!"
+        res.statusCode = 200;
+    } 
+    catch(e){
+        
+        if(e instanceof TypeError){
+            message = e.message
+            res.statusCode = 400;
+        }else{
+            message = "Сталася помилка на сервері!";
+            res.statusCode = 500;
+        }
+    }finally{
+        res.send(message);
+    }
     
 
-    if(info.user_type == SQLUserType.teacher){
-        try{
-            timeCheck(body.day,body.month,body.year)
-            
-            for await(let item of body.pupils){
-                await pool.query(query,[item,SQLUserType.pupil,body.day,body.month,body.year]);
-            } 
-            message = "Ваш запит успішно опрацьовано!"
-            res.statusCode = 200;
-        } 
-        catch(e){
-            
-            if(e instanceof TypeError){
-                message = e.message
-                res.statusCode = 400;
-            }else{
-                message = "Сталася помилка на сервері!";
-                res.statusCode = 500;
-            }
-        }finally{
-            res.send(message);
-        }
-    }
-
 }
+
+
+function errorHandler(func){
+    return (req,res,next)=>{
+        Promise.resolve(func(req,res,next)).catch(next)
+    }
+}
+
+
 
 dotenv.config();
 
@@ -128,15 +166,18 @@ const app = express();
 connectServer(app);
 let pool = await connectDB();
  
-app.get("/",async (req,res)=>{
+app.get("/",errorHandler(async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     if(info){
         res.redirect("/home"); 
     }
-})
+}))
+
+
+
 
 app.route("/login")
-.get(async (req,res)=>{
+.get(errorHandler(async (req,res)=>{
     try{
         let info = await verifyJWT(req.cookies.token);
         res.redirect("/home"); 
@@ -144,12 +185,12 @@ app.route("/login")
         res.render("Login.ejs")
     }
  
-})
-.post(async (req,res)=>{ 
+}))
+.post(errorHandler(async (req,res)=>{ 
     let {userName,userPassword,type} = req.body;
     type = Number(type);
-    let user = (await findUser(userName,userPassword,type))[0];// bcrypt.hash 
- 
+    let user = (await findUser(userName,userPassword,type));// bcrypt.hash 
+
     if(user){
         let jwtObject = {
             id:user.id,
@@ -171,17 +212,29 @@ app.route("/login")
                 res.status(200).send("Logged in!")
         });
     }else{
-        res.status(404).send("User Not Found!");
+        res.status(404).send("Такого користувача не існує!");
     } 
-}) 
+}))
 
-app.get('/home',async (req,res)=>{
+app.get('/home',errorHandler(async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     if(!info) return;
  
     renderHomeJWT(req,res,info.user_type);
     
-}) 
+}))
+
+app.get("/home/export",errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/login");
+
+    if(info.user_type != SQLUserType.admin){
+        res.redirect("/home")
+        return;
+    }
+
+    res.download("ErrorLog.txt")
+}))
+
 
 async function getMenu(day,month,year){
     let menuQuery = `
@@ -218,19 +271,14 @@ async function getMenu(day,month,year){
 }
 
 app.route("/order")
-.get(async(req,res)=>{
+.get(errorHandler(async(req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     if(!info) return;
-
     let {day,month,year} = req.query;
     
     let userId = info.id; 
     let userType = info.user_type;
-    
-    
-    
     let clientData = {};
-
 
     try{
         timeCheck(day,month,year)
@@ -251,7 +299,13 @@ app.route("/order")
         let pupilsOrder = (await pool.query(pupilsOrderQuery,[day,month,year,userId,SQLUserType.pupil]))[0][0];
 
         clientData.menu = await getMenu(day,month,year);
-        clientData.order = pupilsOrder;
+        if(pupilsOrder){
+            clientData.ordered = "Y";
+        }else{
+            clientData.ordered = "N";
+        }
+
+        
 
         res.render("Pupil/Order.ejs", {userId:userId,data:clientData})
  
@@ -283,38 +337,93 @@ app.route("/order")
     }
 
 
-})  
-.delete(async(req,res)=>{
-    let deleteQuery = `DELETE FROM \`order\` 
-    WHERE user_id = ? AND user_type = ? 
-    AND _day=? AND _month=? AND _year=?;`;
-
-    requestFromUser(req,res,deleteQuery)
+}))  
+.delete(errorHandler(async(req,res)=>{
+    requestFromUser(req,res)
+}))
+.post(errorHandler(async(req,res)=>{
     
-})
-.post(async(req,res)=>{
-    let postQuery = `INSERT INTO \`order\` (user_id,user_type,_day,_month,_year) VALUES(?,?,?,?,?);`
-    
-    requestFromUser(req,res,postQuery)
+    requestFromUser(req,res)
+ 
 
-
-})
+}))
 
 
 
 
 
 
-app.get("/profile",async (req,res)=>{ 
+app.route("/profile")
+.get(errorHandler(async (req,res)=>{ 
     let info = await redirectJWT(req,res,"/login");
     if(!info) return;
 
     res.render("Profile.ejs",info);
-})
+}))
+.post(errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/login");
+    if(!info) return;
+
+    let message;
+    let userType = TextUserType[info.user_type-1];
+
+    const chagePasswordQuery = `
+    UPDATE ${userType} SET _password = ? WHERE id = ?;`
+
+    let {oldPassword,newPassword} = req.body;
+
+    let user = await findUser(info.login,oldPassword,info.user_type);
+
+    if(user){
+        let hashedPassword = await generateHashedPassword(newPassword);
+        await pool.query(chagePasswordQuery,[hashedPassword,info.id])
+        res.statusCode = 200;
+        message = "Пароль успішно змінено!"
+    }else{
+        res.statusCode = 404;
+        message = "Введено неправильний пароль!"
+    }
+    res.send(message)
+}))
 
 
-app.route("/logout").get((req,res)=>{
+app.route("/logout").get(errorHandler((req,res)=>{
     res.cookie("token","").redirect("/login"); 
-})
+}))
 
+
+
+
+async function generateHashedPassword(password){
+    let salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password,salt);
+} 
+
+
+
+//Error handling 
+
+app.use((err, req, res, next) => {
+    let date = new Date();
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    let requestData = `IP: ${req.IP}, METHOD: ${req.method}, URL: ${fullUrl} `
+    let errorData = `\n\n\n ${date.toDateString()} ${date.getHours()}:${date.getMinutes()} \n ${requestData} \n ${err.stack}`
+    
+    console.error(err.stack)
+    
+    fs.appendFileSync(path.join(process.cwd(),"ErrorLog.txt"),errorData)
+
+    res.status(500).send("Йой, сталася непередбачувана помилка, повідомте про неї адміністратора!");
+});
+
+
+//Login limiter (not working)
+
+// let loginLimiter = rateLimit({
+//     windowMs:15*60*1000,
+//     max: 5,
+//     message:"Надійшло дуже багато спроб ввійти з Вашої адреси. Спробуйте ше раз пізніше"
+// })
+
+// app.use("/login",loginLimiter)
 

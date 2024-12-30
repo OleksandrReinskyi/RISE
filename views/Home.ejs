@@ -25,7 +25,10 @@
         </table>
 
     </section> 
-    
+    <% if(admin) {%>
+        <button id="export_button">Експортувати дані в .csv</button>
+        <script defer src="JS/Admin/Export.js"></script>
+    <% } %>
 </main>
 
 <script src="JS/TeacherStudentHome.js"></script>

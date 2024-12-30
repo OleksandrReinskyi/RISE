@@ -1,4 +1,6 @@
-const {canOrderToday} = window.serverData;
+const {canOrderToday,menu} = window.serverData;
+
+
 
 function addPostRequestLogic(){
 

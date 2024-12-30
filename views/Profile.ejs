@@ -1,5 +1,17 @@
 <%- include("partials/TeacherUserHeader.ejs")%>
 <main>
-    <h1><%- login %></h1>
-    <h1><%- name %></h1>
+    <h1>Привіт, <%- name %>!</h1>
+    <section id="main__passwordReset">
+        <h2>Зміна паролю</h2>
+        <form id="main__formReset">
+            <label for="">Введіть свій старий пароль: 
+                <input name="oldPassword" id="oldPassword" type="password">
+            </label>
+            <label for="">Введіть новий пароль: 
+                <input name="newPassword" id="newPassword" type="password">
+            </label>
+            <button type="submit">Змінити пароль</button>
+        </form>
+    </section>    
 </main> 
+<script src="JS/Profile.js"></script>

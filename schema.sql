@@ -80,9 +80,9 @@ CREATE TABLE menu_ingridients(
     FOREIGN KEY(ingridient_id) REFERENCES ingridient(id)
 );
 
-INSERT INTO class VALUES(11,"11-B");
-
-
+INSERT INTO class VALUES(1,"11-A");
+INSERT INTO class VALUES(2,"11-B");
+INSERT INTO class VALUES(3,"11-C");
 
 INSERT INTO ingridient(id,_name,_description) VALUES (1,"Kotlet","Котлета зі свинини");
 INSERT INTO ingridient(id,_name,_description) VALUES (2,"Chaiok","Чай зелений без цукру");
@@ -102,11 +102,20 @@ INSERT INTO user_type VALUES(1,"pupil");
 INSERT INTO user_type VALUES(2,"teacher");
 INSERT INTO user_type VALUES(3,"admin");
 
-INSERT INTO pupil VALUES(1,"oleksandr","alex","12345",11,false);
-INSERT INTO pupil VALUES(2,"orest","orest","orest",11,false);
-INSERT INTO pupil VALUES(3,"slavik","slavik","123",11,true);
+INSERT INTO pupil VALUES(1,"oleksandr","alex","$2b$10$7s7EoATh5CUESAyWWRy96.8jbpqG4Mxd3hETjRukqdhTcjnvT48W6",2,false);
+INSERT INTO pupil VALUES(2,"orest","orest","orest",2,false);
+INSERT INTO pupil VALUES(3,"slavik","slavik","123",2,true);
 
-INSERT INTO teacher VALUES(1,"olena",11,"olena","password"); 
+INSERT INTO pupil VALUES(4,"vasyl","vasyl sergiovych","$2b$10$GZ1o3J.oJ6Qr0sE1MQWduuHbnBwguiopvpRps6HpmDTRCOnZsXAvS",1,true);
+INSERT INTO pupil VALUES(5,"yaroslav","yaroslav","$2b$10$EqnxAu6601DcXQeM6vMHRuE7Z7IgekZoZyCK2Io/EUCnS347D2PG.",1, false);
+
+
+INSERT INTO teacher VALUES(1,"olena",2,"olena","$2b$10$H/zJY0onrTu95OGHDrMzWOys8P.pi6WJBsx5ihoauZKkfZf/r0QxO"); 
+
+INSERT INTO teacher VALUES(2,"olga",1,"olga","$2b$10$JDitbgYwodzzNNfylNm.y.jJHOXi1uW497gFCr2Y/9aA5beafYbDu"); 
+
+
+INSERT INTO admin VALUES(1,"admin","admin","$2b$10$BVFOHn4Yme0Nogwebtd6eeG9ncum4PNKbn1TiJeufQ8Cfn8jqrQGi");
 
 INSERT INTO `order` VAlUES(1,1,11,2024,1,1);
 INSERT INTO `order` VAlUES(2,1,11,2024,1,2);
