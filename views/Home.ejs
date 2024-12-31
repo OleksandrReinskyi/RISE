@@ -25,10 +25,12 @@
         </table>
 
     </section> 
+    <script src="JS/TeacherStudentHome.js"></script>
     <% if(admin) {%>
         <button id="export_button">Експортувати дані в .csv</button>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
         <script defer src="JS/Admin/Export.js"></script>
     <% } %>
 </main>
 
-<script src="JS/TeacherStudentHome.js"></script>

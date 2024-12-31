@@ -224,7 +224,18 @@ app.get('/home',errorHandler(async (req,res)=>{
     
 }))
 
-app.get("/home/export",errorHandler(async (req,res)=>{
+/**
+ * Export
+ * 1) Select all classes 
+ * 2) Loop through classes
+ * -- Loop through days 
+ * --- Select all pupils and join them with table with orders (if order place ordered "Y")
+ * --- Insert them into object[class]->object[pupil]->object[ordersarray[day]]
+ * 3) Make .csv file 
+ * 4) Download
+ */
+
+app.post("/home/export",errorHandler(async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
 
     if(info.user_type != SQLUserType.admin){
@@ -232,7 +243,60 @@ app.get("/home/export",errorHandler(async (req,res)=>{
         return;
     }
 
-    res.download("ErrorLog.txt")
+    let {month,year} = req.body;
+
+    let classesQuery = `SELECT * FROM class`;
+    let classes = (await pool.query(classesQuery))[0];
+
+    let maxDate = new Date(year,month+1)
+    maxDate.setDate(maxDate.getDate()-1)
+    let maxDay = maxDate.getDate();
+
+    let finalObj = {}
+
+    for await(let item of classes){
+        const className = item["_name"];
+        const classId = item["id"];
+        let classObj={};
+
+        let classQuery = `SELECT id,_name,class,privileged FROM pupil WHERE class=?;`
+        let pupils = (await pool.query(classQuery,[classId]))[0]
+
+        for(let i of pupils){
+            classObj[i._name] = {
+                orders:[],
+                info: {
+                    id:i.id,
+                    privileged:i.privileged
+                }
+            }
+        }
+
+        for (let day = 1;day<=maxDay;day++){
+            let query = `SELECT ppl._name,
+            CASE 
+                WHEN ord.user_id IS NOT NULL THEN "Так"
+                ELSE "Ні"
+            END AS ordered
+            FROM pupil AS ppl
+            Left JOIN \`order\` AS ord
+                ON ppl.id = ord.user_id
+                AND ord._day = ? 
+                AND ord._month = ? 
+                AND ord._year = ?
+                AND ord.user_type = ?
+            WHERE ppl.class = ?;
+            `
+            let orders = (await pool.query(query,[day,month,year,SQLUserType.pupil,classId]))[0];
+            for(let order of orders){
+                classObj[order._name].orders.push(order.ordered)
+            }
+            
+        }
+        finalObj[className] = classObj;
+    }
+
+    res.send(JSON.stringify(finalObj))
 }))
 
 
@@ -342,10 +406,7 @@ app.route("/order")
     requestFromUser(req,res)
 }))
 .post(errorHandler(async(req,res)=>{
-    
     requestFromUser(req,res)
- 
-
 }))
 
 
