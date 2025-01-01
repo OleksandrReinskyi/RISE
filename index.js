@@ -9,7 +9,7 @@ import rateLimit from "express-rate-limit";
 
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
-
+import {loginError, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
 
 const salt = bcrypt.genSaltSync(10);
 const jwt_secret = process.env.JWT_SECRET;;
@@ -28,8 +28,9 @@ function timeCheck(dayAccessed,monthAccessed,yearAccessed){
     let dateAccessed = (new Date(yearAccessed, monthAccessed, dayAccessed)).getTime();
 
     if(dateNow>dateAccessed){
-        throw new TypeError(`Нажаль замовляти обід після ${stopOrdersHour} години не можна!`)
+        return false;
     }
+    return true;
 }   
 
 async function findUser(login,password,type){ // returns user data if it is present in database
@@ -86,7 +87,7 @@ function renderHomeJWT(req,res,type){ // renders the home page accroding to logi
             res.render("Home.ejs",{admin:true});
             break;
         default:
-            res.status(404).send("Wrong user type!");
+            res.status(404).send(userTypeError.message);
     }
 }
 
@@ -209,10 +210,11 @@ app.route("/login")
         jwt.sign(jwtObject,jwt_secret,{expiresIn:"1h"},(err,token)=>{
                 if(err) throw err;
                 res.cookie("token",token);
-                res.status(200).send("Logged in!")
+                res.status(200).send("Успішно!")
         });
     }else{
-        res.status(404).send("Такого користувача не існує!");
+        res.statusCode = 404;
+        res.send(loginError.message);
     } 
 }))
 
@@ -224,18 +226,9 @@ app.get('/home',errorHandler(async (req,res)=>{
     
 }))
 
-/**
- * Export
- * 1) Select all classes 
- * 2) Loop through classes
- * -- Loop through days 
- * --- Select all pupils and join them with table with orders (if order place ordered "Y")
- * --- Insert them into object[class]->object[pupil]->object[ordersarray[day]]
- * 3) Make .csv file 
- * 4) Download
- */
 
-app.post("/home/export",errorHandler(async (req,res)=>{
+// Data schema {class:{pupil:{orders:[],info:{}}}}
+app.post("/home/export",errorHandler(async (req,res)=>{ 
     let info = await redirectJWT(req,res,"/login");
 
     if(info.user_type != SQLUserType.admin){
@@ -262,7 +255,7 @@ app.post("/home/export",errorHandler(async (req,res)=>{
         let classQuery = `SELECT id,_name,class,privileged FROM pupil WHERE class=?;`
         let pupils = (await pool.query(classQuery,[classId]))[0]
 
-        for(let i of pupils){
+        for(let i of pupils){ // Format data
             classObj[i._name] = {
                 orders:[],
                 info: {
@@ -342,15 +335,10 @@ app.route("/order")
     
     let userId = info.id; 
     let userType = info.user_type;
-    let clientData = {};
 
-    try{
-        timeCheck(day,month,year)
-        clientData.canOrderToday = true;
-    }
-    catch(e){
-        clientData.canOrderToday = false;
-    }
+
+    let clientData = {};
+    clientData.canOrderToday = timeCheck(day,month,year)
     clientData.toString = function(){
         return JSON.stringify(this);
     }
@@ -364,9 +352,9 @@ app.route("/order")
 
         clientData.menu = await getMenu(day,month,year);
         if(pupilsOrder){
-            clientData.ordered = "Y";
+            clientData.ordered = true;
         }else{
-            clientData.ordered = "N";
+            clientData.ordered = false;
         }
 
         
@@ -374,28 +362,28 @@ app.route("/order")
         res.render("Pupil/Order.ejs", {userId:userId,data:clientData})
  
     }else if(userType == SQLUserType.teacher){
-        let class_tutor = info.class_tutor;
        
         clientData.menu = await getMenu(day,month,year);
 
-        let pupilsThatOrderedQuery = ` 
-            
-            SELECT user_id, _name, privileged, "Y" as ordered FROM pupil as ppl 
-            CROSS JOIN \`order\` as ord ON ord.user_id = ppl.id 
-            WHERE ord._day = ? AND ord._month = ? AND ord._year = ?  AND ord.user_type = ? AND ppl.class = ?;
-            
-        `;// 4 read operations 
-    
-        let allPupilsQuery = `
-        SELECT id as user_id, _name, privileged, "N" as ordered FROM pupil WHERE class = ?;
-        `; // 3 read operations
+        let query = `SELECT ppl.id as user_id, _name, privileged,
+            CASE 
+                WHEN ord.user_id IS NOT NULL THEN true
+                ELSE false
+            END AS ordered
+            FROM pupil AS ppl
+            Left JOIN \`order\` AS ord
+                ON ppl.id = ord.user_id
+                AND ord._day = ? 
+                AND ord._month = ? 
+                AND ord._year = ?
+                AND ord.user_type = ?
+            WHERE ppl.class = ?;
+            `
 
-        let pupilsThatOrdered = (await pool.query(pupilsThatOrderedQuery,[day,month,year,SQLUserType.pupil,class_tutor]))[0];
-        let allPupils = (await pool.query(allPupilsQuery,[class_tutor]))[0]; 
         
-        
-        clientData.allPupils = allPupils;
-        clientData.pupilsThatOrdered=pupilsThatOrdered;
+        let pupils = (await pool.query(query,[day,month,year,SQLUserType.pupil,info.class_tutor]))[0]
+
+        clientData.pupils = pupils
 
         res.render("Teacher/Order.ejs",{data:clientData});
     }
@@ -474,7 +462,7 @@ app.use((err, req, res, next) => {
     
     fs.appendFileSync(path.join(process.cwd(),"ErrorLog.txt"),errorData)
 
-    res.status(500).send("Йой, сталася непередбачувана помилка, повідомте про неї адміністратора!");
+    res.status(500).send(unforseenError.message);
 });
 
 

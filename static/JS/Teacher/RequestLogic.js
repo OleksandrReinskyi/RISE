@@ -1,6 +1,14 @@
-const {canOrderToday,menu} = window.serverData;
+import {idValidityError,timeError,scriptError} from "../Utils/ErrorMessages.js"
+const {canOrderToday,menu,pupils} = window.serverData;
 
 
+/**
+ * This file handles requsts logic that change something in database
+ * Algorithm:
+ * 1) It selects all of the data in checkboxes 
+ * 2) It checks if the data was changed and which way (deleted a check or added a check)
+ * 3) Puts users` ids into appropriate objects and makes a request with them
+ */
 
 function addPostRequestLogic(){
 
@@ -14,7 +22,7 @@ function addPostRequestLogic(){
             let element = checkboxes[i]; 
 
             obj.user_id = element.getAttribute("name");
-            obj.ordered = element.checked ? "Y" : "N";
+            obj.ordered = element.checked ? true : false;
             array.push(obj)
         }
         return array;
@@ -22,15 +30,15 @@ function addPostRequestLogic(){
 
     function checkIDValidity(currentInfo,allPupils){
         for(let i = 0; i<currentInfo.length;i++){
-            if(allPupils[currentInfo[i].user_id]){
-                continue
+            if(typeof allPupils[currentInfo[i].user_id] === undefined){
+                throw idValidityError
             }else{
-                throw new Error("У Вас не має доступу до користувачів, дані яких Ви намагаєтес змінити!")
+                continue
             }
         }
     }
 
-    function organizeInitialInfo(pupilsThatOrdered){ // makes object more compact for further search
+    function organizeInitialInfo(pupilsThatOrdered){ // makes object more compact for further search {id:ordered}
         let obj={};
         for(let i = 0; i < pupilsThatOrdered.length;i++){
             let element = pupilsThatOrdered[i];
@@ -52,37 +60,40 @@ function addPostRequestLogic(){
                 "Content-Type":"application/json;charset=utf-8"
             }
         })
-        alert(await response.text()) 
+        if(response.status != 200){
+            throw new Error(await response.text())
+        }else{
+            alert(await response.text())
+        }
     }
     
     form.addEventListener("submit",(e)=>{
         e.preventDefault()
         try{
-            if(!canOrderToday) throw new Error("Нажаль замовляти після 9 години не можна!")
+            if(!canOrderToday) throw timeError
 
             let currentInfo = extractInfo(checkboxes);
 
-            let organizedAllPupils = organizeInitialInfo(allPupils);
+            let organizedAllPupils = organizeInitialInfo(pupils);
             checkIDValidity(currentInfo,organizedAllPupils);
-    
-            let organizedPupilsThatOrdered = organizeInitialInfo(pupilsThatOrdered); 
+            
             let deleteObj = {pupils:[]};
             let insertObj = {pupils:[]};
 
     
             for(let i = 0; i<currentInfo.length;i++){ // Checks if we uncheked a checkbox(row must be deleted from database) or checked one (row must be inserted into database) according to initial data from server
                 let currentOrder = currentInfo[i];
-                let initialOrder = organizedPupilsThatOrdered[currentOrder.user_id];
+                let initialOrder = organizedAllPupils[currentOrder.user_id];
                 if(initialOrder){
-                    if(currentOrder.ordered == "Y"){
+                    if(currentOrder.ordered){
                         continue;
-                    }else if (currentOrder.ordered=="N"){
+                    }else if (!currentOrder.ordered){
                         deleteObj.pupils.push(currentOrder.user_id);
                     }
                 }else{
-                    if(currentOrder.ordered == "N"){
+                    if(!currentOrder.ordered){
                         continue;
-                    }else if (currentOrder.ordered == "Y"){
+                    }else if (currentOrder.ordered){
                         insertObj.pupils.push(currentOrder.user_id);
                     }
                 }
@@ -95,7 +106,7 @@ function addPostRequestLogic(){
                 sendRequest(insertObj,"POST");
             }
         }catch(e){
-            alert(e.message);
+            alert(scriptError(e));
         }
     });
     

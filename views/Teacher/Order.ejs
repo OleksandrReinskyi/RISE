@@ -1,7 +1,7 @@
-<%- include("../partials/TeacherUserHeader.ejs")%>
+<%- include("../partials/Header.ejs")%>
 
 <main>
-    <%- include("../partials/TeacherUserMenu.ejs")%>
+    <%- include("../partials/Menu.ejs")%>
 
     <form id="orders" >
         <table id="orders_table">
@@ -16,9 +16,9 @@
         <button type="submit">Замовити</button>
     </form>
 
-    <%- include("../partials/TeacheruserServerData.ejs")%>
+    <%- include("../partials/ServerData.ejs")%>
 
 </main> 
- <script defer src="JS/RenderMenu.js"></script>
- <script defer src="JS/Teacher/RenderPupils.js"></script>
- <script defer src="JS/Teacher/RequestLogic.js"></script>
+ <script defer type="module" src="JS/RenderMenu.js"></script>
+ <script defer type="module" src="JS/Teacher/RenderPupils.js"></script>
+ <script defer type="module" src="JS/Teacher/RequestLogic.js"></script>

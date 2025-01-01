@@ -1,4 +1,5 @@
-let {ordered,menu} = window.serverData;
+import {idValidityError,timeError,scriptError} from "../Utils/ErrorMessages.js"
+let {ordered,menu,canOrderToday} = window.serverData;
 
 const form = document.getElementById("order");
 const orderStatus =  document.getElementById("order__status");
@@ -10,12 +11,12 @@ let notOrderedSubmitMessage = "Замовити"
 let notOrderedMessage = "НЕ замовлено!";
 
 function changeOrderInfo(ordered){
-    if(ordered == "Y"){
+    if(ordered == true){
         orderStatus.innerText = orderedStatusMessage;
         orderStatus.classList.add(".status__ordered");
         orderSubmit.innerText = orderedSubmitMessage;
         orderStatus.classList.add(".submit__ordered");
-    }else if(ordered == "N"){
+    }else if(ordered == false){
         orderStatus.innerText = notOrderedMessage;
         orderStatus.classList.remove(".status__ordered");
         orderSubmit.innerText = notOrderedSubmitMessage;
@@ -38,6 +39,8 @@ async function sendRequest(type) {
     })
     if(response.status != 200){
         throw new Error(await response.text())
+    }else{
+        alert(await response.text())
     }
 }
 
@@ -47,19 +50,20 @@ changeOrderInfo(ordered);
 form.addEventListener("submit", async (event)=>{
     event.preventDefault();
     try{
-        if(ordered == "Y"){
+        if(!canOrderToday) {throw timeError}
+        if(ordered == true){
             await sendRequest("DELETE");
-            ordered = "N";
+            ordered = false;
             changeOrderInfo(ordered)
-        }else if(ordered == "N"){
+        }else if(ordered == false){
             await sendRequest("POST");
-            ordered = "Y";
+            ordered = true;
             changeOrderInfo(ordered)
         }else{
-            alert("Сталася помилка, це не Ви це сервер. Спробуйте перезавантажити сторінку!");
+            throw new Error("Ordered is null of undefined!");
         }
     }catch(e){
-        alert(e.message)
+        alert(scriptError(e))
     }
     
 })

@@ -1,14 +1,14 @@
-<%- include("../partials/TeacherUserHeader.ejs")%>
+<%- include("../partials/Header.ejs")%>
 
 <main>
-    <%- include("../partials/TeacheruserServerData.ejs")%>
-    <%- include("../partials/TeacherUserMenu.ejs")%>
+    <%- include("../partials/ServerData.ejs")%>
+    <%- include("../partials/Menu.ejs")%>
 
     <form id="order">
         <p id="order__status"></p>
         <button type="submit" id="order__submit"></button>
     </form>
 </main>
-<script defer src="JS/RenderMenu.js"></script>
-<script defer src="JS/Pupil/RequestLogic.js"></script>
+<script defer type="module" src="JS/RenderMenu.js"></script>
+<script defer type="module" src="JS/Pupil/RequestLogic.js"></script>
 
