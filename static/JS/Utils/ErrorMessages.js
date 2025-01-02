@@ -16,4 +16,4 @@ export let scriptError = function (e){
 export let loginError = new Error("Неправильний логін або пароль!")
 export let unforseenError = new Error("Йой, сталася непередбачувана помилка, повідомте про неї адміністратора!")
 export let userTypeError = new Error("Такого типу користувача не існує!")
-
+export let accessError = new Error("У вас немає доступу до даної сторінки!")

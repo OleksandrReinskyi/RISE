@@ -1,0 +1,13 @@
+<%- include("../partials/Header.ejs")%>
+
+<main>
+    <section id="classes">
+        <% classes.forEach(element => {%>
+
+            <div class="classes_item">
+                <a href="/order?day=<%=date.day%>&month=<%=date.month%>&year=<%=date.year%>&class=<%=element.id%>" class="classes_item-link"><%=element._name%></a>
+            </div>
+        <%}); %>
+    </section>
+</main>
+

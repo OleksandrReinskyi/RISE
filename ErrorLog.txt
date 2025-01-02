@@ -120,3 +120,192 @@
     at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
     at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:402:34
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+ Thu Jan 02 2025 15:38 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/classes?day=2&month=0&year=2025  
+ TypeError: res.statusCode is not a function
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:406:13
+
+
+ Thu Jan 02 2025 15:41 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/home  
+ ReferenceError: D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Home.ejs:1
+ >> 1| <%- include("partials/Header.ejs")%>
+    2| <main>
+    3|     <section id="calendar">
+    4|         <div id="controls">
+
+D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\partials\Header.ejs:7
+    5|         <% if(admin){ %>
+    6|             <li><a href="/rule" id="logout">Керування</a></li>
+ >> 7|         <% endif}%>
+    8|         <li><a href="/logout" id="logout">Logout</a></li>
+    9|     </ul>
+    10| </header>
+
+endif is not defined
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:15:8)
+    at Header (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at include (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:701:39)
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:10:17)
+    at Home (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:36)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+
+
+ Thu Jan 02 2025 15:41 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/profile  
+ ReferenceError: D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Profile.ejs:1
+ >> 1| <%- include("partials/Header.ejs")%>
+    2| <main>
+    3|     <h1>Привіт, <%- name %>!</h1>
+    4|     <section id="main__passwordReset">
+
+D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\partials\Header.ejs:5
+    3|         <li><a href="/profile" class="header__link">Profile</a></li>
+    4|         <li><a href="/home" class="header__link">Home</a></li>
+ >> 5|         <% if(admin){ %>
+    6|             <li><a href="/rule" id="logout">Керування</a></li>
+    7|         <% }%>
+    8|         <li><a href="/logout" id="logout">Logout</a></li>
+
+admin is not defined
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:12:8)
+    at Header (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at include (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:701:39)
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:10:17)
+    at Profile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:36)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+
+
+ Thu Jan 02 2025 15:46 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/profile  
+ ReferenceError: D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Profile.ejs:1
+ >> 1| <%- include("partials/Header.ejs")%>
+    2| <main>
+    3|     <h1>Привіт, <%- name %>!</h1>
+    4|     <section id="main__passwordReset">
+
+D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\partials\Header.ejs:5
+    3|         <li><a href="/profile" class="header__link">Profile</a></li>
+    4|         <li><a href="/home" class="header__link">Home</a></li>
+ >> 5|         <!-- <% if(admin){ %>
+    6|             <li><a href="/rule" id="logout">Керування</a></li>
+    7|         <% }%> -->
+    8|         <li><a href="/logout" id="logout">Logout</a></li>
+
+admin is not defined
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:12:8)
+    at Header (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at include (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:701:39)
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:10:17)
+    at Profile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:36)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+
+
+ Thu Jan 02 2025 15:46 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/profile  
+ ReferenceError: D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Profile.ejs:1
+ >> 1| <%- include("partials/Header.ejs")%>
+    2| <main>
+    3|     <h1>Привіт, <%- name %>!</h1>
+    4|     <section id="main__passwordReset">
+
+D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\partials\Header.ejs:5
+    3|         <li><a href="/profile" class="header__link">Profile</a></li>
+    4|         <li><a href="/home" class="header__link">Home</a></li>
+ >> 5|         <!-- <% if(admin){ %>
+    6|             <li><a href="/rule" id="logout">Керування</a></li>
+    7|         <% }%> -->
+    8|         <li><a href="/logout" id="logout">Logout</a></li>
+
+admin is not defined
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:12:8)
+    at Header (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at include (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:701:39)
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:10:17)
+    at Profile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:36)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+
+
+ Thu Jan 02 2025 15:48 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/classes?day=2&month=0&year=2025  
+ Error: Failed to lookup view "" in views directory "D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views"
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:597:17)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+    at res.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express-ejs-layouts@2.5.1\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:415:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+ Thu Jan 02 2025 15:49 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/classes?day=2&month=0&year=2025  
+ Error: Cannot find module 'js'
+Require stack:
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\express.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at require (node:internal/modules/helpers:176:18)
+    at new View (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:81:14)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:587:12)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+    at res.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express-ejs-layouts@2.5.1\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:415:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+ Thu Jan 02 2025 15:49 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/classes?day=2&month=0&year=2025  
+ Error: Cannot find module 'js'
+Require stack:
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js
+- D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\express.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1144:15)
+    at Module._load (node:internal/modules/cjs/loader:985:27)
+    at Module.require (node:internal/modules/cjs/loader:1235:19)
+    at require (node:internal/modules/helpers:176:18)
+    at new View (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:81:14)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:587:12)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+    at res.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express-ejs-layouts@2.5.1\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:415:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+ Thu Jan 02 2025 15:52 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/classes?day=2&month=0&year=2025  
+ SyntaxError: Unexpected token '}' in D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Admin\OrderClasses.ejs while compiling ejs
+
+If the above error is not helpful, you may want to try EJS-Lint:
+https://github.com/RyanZim/EJS-Lint
+Or, if you meant to create an async function, pass `async: true` as an option.
+    at new Function (<anonymous>)
+    at Template.compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12)
+    at Object.compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:398:16)
+    at handleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:235:18)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:16)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)

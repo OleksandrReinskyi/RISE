@@ -6,7 +6,7 @@
             <h2 id="current__month"></h2>
             <div id="button__next">></div>
         </div>
-        <table>
+        <table id="calendar__table">
             <thead>
                 <tr>
                     <th>Пн</th>
@@ -25,11 +25,26 @@
         </table>
 
     </section> 
-    <script src="JS/RenderHome.js"></script>
     <% if(admin) {%>
+        <div id="prompt" class="hidden" > 
+            <div id="prompt_wrapper">
+                <button id="prompt_close">Закрити</button>
+                <p id="prompt_text"></p>
+                <div id="prompt_buttons">
+                    <a href="" id="prompt_dashboard">Дешборд</a>
+                    <a href="" id="prompt_classes">Замовити порції</a>
+                </div>
+            </div>
+        </div>
+        <style>
+            .hidden{
+                display: none;
+            }
+        </style>
         <button id="export_button">Експортувати дані</button>
         <script defer type="module" src="JS/Admin/Export.js"></script>
         <script defer type="module" src="JS/Admin/ModeSwitch.js"></script>
     <% } %>
+    <script defer src="JS/RenderHome.js"></script>
 </main>
 

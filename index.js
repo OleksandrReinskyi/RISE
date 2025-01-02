@@ -2,14 +2,14 @@ import express from "express";
 import dotenv from "dotenv"
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken"
-import fs from "fs"
+import fs, { access } from "fs"
 import path from "path"
 import rateLimit from "express-rate-limit";
 
 
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
-import {loginError, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
+import {accessError, loginError, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
 
 const salt = bcrypt.genSaltSync(10);
 const jwt_secret = process.env.JWT_SECRET;;
@@ -101,17 +101,17 @@ async function redirectJWT(req,res,location){ //redirects to some page if there'
 
 }
 
-async function handleTeacherRequest(body,query) {
+async function handleTeacherAdminRequest(body,query) { // executes either a delete or post query for multiple students
     for await(let item of body.pupils){
         await pool.query(query,[item,SQLUserType.pupil,body.day,body.month,body.year]);
     } 
 }
 
-async function handleStudentRequest(id,body,query) {
+async function handleStudentRequest(id,body,query) { // executes either a delete or post query for one user
     await pool.query(query,[id,SQLUserType.pupil,body.day,body.month,body.year]);
 }
 
-async function requestFromUser(req,res){
+async function requestFromUser(req,res){ //handles delete/post request on /order from users;
     let info = await redirectJWT(req,res,"/login")
     let body = req.body;
     let message;
@@ -127,8 +127,8 @@ async function requestFromUser(req,res){
     }
     try{
         timeCheck(body.day,body.month,body.year)
-        if(info.user_type == SQLUserType.teacher){
-            handleTeacherRequest(body,query);
+        if(info.user_type == SQLUserType.teacher || info.user_type==SQLUserType.admin){
+            handleTeacherAdminRequest(body,query);
         }else if(info.user_type == SQLUserType.pupil){
             handleStudentRequest(info.id,body,query)
         }
@@ -190,7 +190,7 @@ app.route("/login")
 .post(errorHandler(async (req,res)=>{ 
     let {userName,userPassword,type} = req.body;
     type = Number(type);
-    let user = (await findUser(userName,userPassword,type));// bcrypt.hash 
+    let user = (await findUser(userName,userPassword,type));
 
     if(user){
         let jwtObject = {
@@ -327,6 +327,32 @@ async function getMenu(day,month,year){
 
 }
 
+async function getOrderTeacherAdmin(req,res,day,month,year,className,clientData) {
+    clientData.menu = await getMenu(day,month,year);
+
+    let query = `SELECT ppl.id as user_id, _name, privileged,
+        CASE 
+            WHEN ord.user_id IS NOT NULL THEN true
+            ELSE false
+        END AS ordered
+        FROM pupil AS ppl
+        Left JOIN \`order\` AS ord
+            ON ppl.id = ord.user_id
+            AND ord._day = ? 
+            AND ord._month = ? 
+            AND ord._year = ?
+            AND ord.user_type = ?
+        WHERE ppl.class = ?;
+        `
+
+    
+    let pupils = (await pool.query(query,[day,month,year,SQLUserType.pupil,className]))[0]
+
+    clientData.pupils = pupils
+
+    res.render("Teacher/Order.ejs",{data:clientData});
+}
+
 app.route("/order")
 .get(errorHandler(async(req,res)=>{
     let info = await redirectJWT(req,res,"/login");
@@ -362,44 +388,35 @@ app.route("/order")
         res.render("Pupil/Order.ejs", {userId:userId,data:clientData})
  
     }else if(userType == SQLUserType.teacher){
-       
-        clientData.menu = await getMenu(day,month,year);
+        getOrderTeacherAdmin(req,res,day,month,year,info.class_tutor,clientData)
 
-        let query = `SELECT ppl.id as user_id, _name, privileged,
-            CASE 
-                WHEN ord.user_id IS NOT NULL THEN true
-                ELSE false
-            END AS ordered
-            FROM pupil AS ppl
-            Left JOIN \`order\` AS ord
-                ON ppl.id = ord.user_id
-                AND ord._day = ? 
-                AND ord._month = ? 
-                AND ord._year = ?
-                AND ord.user_type = ?
-            WHERE ppl.class = ?;
-            `
-
-        
-        let pupils = (await pool.query(query,[day,month,year,SQLUserType.pupil,info.class_tutor]))[0]
-
-        clientData.pupils = pupils
-
-        res.render("Teacher/Order.ejs",{data:clientData});
+    }else if(userType==SQLUserType.admin){
+        getOrderTeacherAdmin(req,res,day,month,year,req.query.class,clientData)
     }
 
 
 }))  
-.delete(errorHandler(async(req,res)=>{
-    requestFromUser(req,res)
+.delete(errorHandler(requestFromUser))
+.post(errorHandler(requestFromUser))
+
+
+
+app.route("/classes")
+.get(errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/login");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+
+    let classesQuery = `SELECT * FROM class;`
+
+    let classes = (await pool.query(classesQuery))[0];
+    let date = {day:req.query.day,month:req.query.month,year:req.query.year};
+
+    res.render("Admin/OrderClasses.ejs",{classes:classes,date:date})
+
 }))
-.post(errorHandler(async(req,res)=>{
-    requestFromUser(req,res)
-}))
-
-
-
-
 
 
 app.route("/profile")

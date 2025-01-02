@@ -59,7 +59,8 @@ function loadTable(currMonth,currYear){
                 cell = createCell(date, currMonth,currYear)
                 date = date+1;
             }
-            row.insertAdjacentHTML("beforeend",cell);
+
+            row.insertAdjacentElement("beforeend",cell);
         }
         
         table.appendChild(row);
@@ -68,11 +69,19 @@ function loadTable(currMonth,currYear){
 }
 
 function createCell(day,month,year){
-    let cell;
-    if(!day){
-        cell = "<th></th>";
-    }else{
-        cell=`<th><a href="/order?day=${day}&month=${month}&year=${year}">${day<10 ? "0" + day : day}.${month+1}.${year}</a></th>`;
+    let cell = document.createElement("th");
+    if(day){
+        let href = `/order?day=${day}&month=${month}&year=${year}`;
+        let text = `${day<10 ? "0" + day : day}.${month+1}.${year}`;
+
+        let link = document.createElement("a")
+        link.setAttribute("href",href);
+        link.innerText = text;
+
+        if(window.displayPrompt){
+            link.addEventListener("click",window.displayPrompt) // e.g if we are in admin mode (security is questionable)
+        }
+        cell.insertAdjacentElement("beforeend",link)
     }
     return cell;
 }
