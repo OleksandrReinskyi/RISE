@@ -418,6 +418,34 @@ app.route("/classes")
 
 }))
 
+app.route("/dashboard")
+.get(errorHandler(async (req,res)=>{
+    let date = req.query;
+
+    let ingridientsQuery = `SELECT ing.id, ing._name, ing.photo, ing._description
+    FROM ingridient as ing 
+    LEFT JOIN menu_ingridients as ming ON ing.id = ming.ingridient_id 
+    WHERE ming.menu_id IN (SELECT id FROM menu as mn WHERE _day=? AND _month=? AND _year=?)`
+
+    let menuQuery = `SELECT * FROM menu WHERE _day=? AND _month=? AND _year=?;`
+
+    let allIngridientsQuery = `SELECT * FROM ingridient;`
+
+    let ingridients = (await pool.query(ingridientsQuery,[date.day,date.month,date.year]))[0];
+    let menu = (await pool.query(menuQuery,[date.day,date.month,date.year]))[0][0];
+    let allIngridients = (await pool.query(allIngridientsQuery,[date.day,date.month,date.year]))[0]; 
+
+    res.render("Admin/Dashboard.ejs",{data:{
+        ingridients:ingridients,
+        allIngridients,
+        menu:menu,
+        date:date,
+        toString: function(){
+            return JSON.stringify(this);
+        }
+    }
+    })
+}))
 
 app.route("/profile")
 .get(errorHandler(async (req,res)=>{ 

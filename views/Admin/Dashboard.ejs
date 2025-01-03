@@ -2,30 +2,28 @@
 
 <main>
     <section id="menu">
-        <div id="menu__wrapper">
-            <h1 id="menu__header">Меню на ...</h1>
-            <div id="menu__body">
-                <div class="menu__item">
-                    <div class="item__container">
-                        <img src="" class="item__img" alt="">
-                        <div class="item__info">
-                            <p class="info__descrpition"></p>
-                            <p class="info__price">Ціна: </p>
-                        </div>
-                    </div>
-                    <button class="item__delete">Видалити інгрідієнт</button>
-                </div>
-                <button id="menu__add">Додати новий інгрідієнт</button>
-            </div>
+        <div id="menu__current">
+
+
+
         </div>
         <form id="menu__form">
-            <div id="form__item">
-                <img src="" id="form__img" alt=""> <!--НЕЗАВЕРШЕНО!-->
-                <div id="item__info">
-                    <p id="info__descrpition"></p>
-                    <p id="info__price">Ціна: </p>
-                </div>
+            <div id="form__container">
+                <label for="">
+                    Виберіть інгрідієнт:
+                    <select name="ingridients" id="form__ingridients">
+                        <% data.allIngridients.forEach(element => {%>
+                            <option value="<%= element.id%>"><%= element._name%></option>
+                        <%}); %>
+                    </select>
+                </label>
+                <button type="submit" id="form__submit"> Додати елемент</button>
             </div>
         </form>
     </section>
 </main>
+<%- include("../partials/ServerData.ejs")%> 
+<script  type="module" src="JS/Admin/Dashboard.js"></script>
+
+
+

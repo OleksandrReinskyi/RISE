@@ -309,3 +309,146 @@ Or, if you meant to create an async function, pass `async: true` as an option.
     at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
     at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
     at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+
+
+ Fri Jan 03 2025 9:15 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=0&year=2025  
+ Error: Table 'project.ingridients' doesn't exist
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:429:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:17 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'menu' at line 4
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:429:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:17 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: Unknown column 'ing.menu_id' in 'on clause'
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:429:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:18 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: Unknown column 'm.id' in 'on clause'
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:429:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:18 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Ri' at line 4
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:429:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:19 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: Table 'project.ingridients' doesn't exist
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:432:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:20 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: Table 'project.ingridients' doesn't exist
+    at PromisePool.query (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\mysql2@3.11.3\node_modules\mysql2\promise.js:356:22)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:432:29
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:158:25
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:149:13)
+    at Route.dispatch (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\router\index.js:280:10)
+
+
+ Fri Jan 03 2025 9:55 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ Error: Could not find matching close tag for "<%".
+    at D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:752:19
+    at Array.forEach (<anonymous>)
+    at Template.generateSource (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:742:15)
+    at Template.compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:587:12)
+    at Object.compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:398:16)
+    at handleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:235:18)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:16)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+
+
+ Fri Jan 03 2025 10:44 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/dashboard?day=1&month=11&year=2024  
+ ReferenceError: D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views\Admin\Dashboard.ejs:16
+    14|                     <select name="ingridients" id="form__ingridients">
+    15|                         <% data.allIngridients.forEach(element => {%>
+ >> 16|                             <option value="<%= element.id%>"><%= elements._name%></option>
+    17|                         <%}); %>
+    18| 
+    19|                     </select>
+
+elements is not defined
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:18:26)
+    at Array.forEach (<anonymous>)
+    at eval (eval at compile (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:673:12), <anonymous>:13:28)
+    at Dashboard (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:703:17)
+    at tryHandleCache (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:274:36)
+    at exports.renderFile [as engine] (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\ejs@3.1.10\node_modules\ejs\lib\ejs.js:491:10)
+    at View.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\view.js:135:8)
+    at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)

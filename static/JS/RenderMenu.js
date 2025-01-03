@@ -1,4 +1,6 @@
+import {formatData} from "./Utils/Helpers.js"
 //Adding menu info on page 
+
 
 const menuElement = document.querySelector("#menu_wrapper");
 
@@ -17,7 +19,7 @@ function renderWarning(info){
     return `
     <div id="menu_warning">
         <h1 id="menu_warning">Вибачте, на цей день меню ще не призначене! </h1>
-        <h3 id="menu_date">Дата: ${info.day}-${Number(info.month)+1 }-${info.year}</h3>
+        <h3 id="menu_date">Дата: ${formatData(info.day,info.month,info.year)}</h3>
     </div>
     
     `
@@ -58,6 +60,7 @@ function createMenuItem(item){
 
 if(window.serverData == undefined){
     alert("Щось пішло не так. Це не Ви, це сервер. Спробуйте перезавантажити сторінку.")
+    throw new Error("ServerData is undefined")
 }else{
     const {menu} = window.serverData;
     document.addEventListener("DOMContentLoaded",(addEventListener)=>{

@@ -1,3 +1,5 @@
+import {formatData} from "./Utils/Helpers.js"
+
 const table = document.querySelector("#table__body");
 let currentMonthTag = document.querySelector("#current__month");
 let buttonPrev = document.querySelector("#button__prev");
@@ -68,11 +70,13 @@ function loadTable(currMonth,currYear){
     currentMonthTag.innerHTML = `${months[currentMonth]} ${currYear} року`;
 }
 
+
+
 function createCell(day,month,year){
     let cell = document.createElement("th");
     if(day){
         let href = `/order?day=${day}&month=${month}&year=${year}`;
-        let text = `${day<10 ? "0" + day : day}.${month+1}.${year}`;
+        let text = formatData(day,month,year);
 
         let link = document.createElement("a")
         link.setAttribute("href",href);
