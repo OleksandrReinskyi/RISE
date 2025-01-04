@@ -1,13 +1,13 @@
 <%- include("../partials/Header.ejs")%>
 
 <main>
-    <section id="menu">
+    <form id="menu">
         <div id="menu__current">
+            <div id="menu__body">
 
-
-
+            </div>
         </div>
-        <form id="menu__form">
+        <section id="menu__form">
             <div id="form__container">
                 <label for="">
                     Виберіть інгрідієнт:
@@ -17,13 +17,14 @@
                         <%}); %>
                     </select>
                 </label>
-                <button type="submit" id="form__submit"> Додати елемент</button>
+                <button id="form__add-ingridient"> Додати елемент</button>
             </div>
-        </form>
-    </section>
+        </section>
+        <button type="submit" id="form__submit">Оновити меню</button>
+    </form>
 </main>
 <%- include("../partials/ServerData.ejs")%> 
-<script  type="module" src="JS/Admin/Dashboard.js"></script>
+<script  type="module" src="JS/Admin/ChangeMenu.js"></script>
 
 
 

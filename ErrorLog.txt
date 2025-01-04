@@ -452,3 +452,13 @@ elements is not defined
     at tryRender (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:657:10)
     at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:609:3)
     at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+
+
+ Sat Jan 04 2025 9:40 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/menu?day=1&month=11&year=2024  
+ Error: Failed to lookup view "Admin/Menu.ejs" in views directory "D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views"
+    at Function.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\application.js:597:17)
+    at ServerResponse.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express@4.21.1\node_modules\express\lib\response.js:1049:7)
+    at res.render (D:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\.pnpm\express-ejs-layouts@2.5.1\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at file:///D:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:444:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)

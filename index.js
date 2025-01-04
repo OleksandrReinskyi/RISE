@@ -418,8 +418,14 @@ app.route("/classes")
 
 }))
 
-app.route("/dashboard")
+app.route("/menu")
 .get(errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/login");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+    
     let date = req.query;
 
     let ingridientsQuery = `SELECT ing.id, ing._name, ing.photo, ing._description
@@ -435,10 +441,10 @@ app.route("/dashboard")
     let menu = (await pool.query(menuQuery,[date.day,date.month,date.year]))[0][0];
     let allIngridients = (await pool.query(allIngridientsQuery,[date.day,date.month,date.year]))[0]; 
 
-    res.render("Admin/Dashboard.ejs",{data:{
+    res.render("Admin/ChangeMenu.ejs",{data:{
         ingridients:ingridients,
         allIngridients,
-        menu:menu,
+        menu:menu ? menu : {},
         date:date,
         toString: function(){
             return JSON.stringify(this);
@@ -446,6 +452,13 @@ app.route("/dashboard")
     }
     })
 }))
+.post(async (req,res)=>{
+
+})
+.put(async (req,res)=>{})
+.delete(async (req,res)=>{})
+
+
 
 app.route("/profile")
 .get(errorHandler(async (req,res)=>{ 
