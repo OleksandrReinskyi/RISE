@@ -452,11 +452,39 @@ app.route("/menu")
     }
     })
 }))
-.post(async (req,res)=>{
+.post(errorHandler(async (req,res)=>{
+    const newIngridients = req.body.insertIngridients;
+    const date = req.body.info.date;
+    const menuId = req.body.info.menuId;
+    let query = `INSERT INTO menu_ingridients (menu_id,ingridient_id) VALUES (?,?)`
+    for await(let i of newIngridients){
+        await pool.query(query,[menuId,i])
+    }
+    res.status(200).send("Запит виконано успішно!")
 
+}))
+.put(async (req,res)=>{
+    const {name,price} = req.body;
+    const date = req.body.info.date;
+    const menuId = req.body.info.menuId;
+    let message;
+
+    if(menuId==null){ // create a menu and send its id as response
+        let query = `INSERT INTO menu (_name,_day,_month,_year,price) VALUES (?,?,?,?,?)`
+        let result = (await pool.query(query,[name,date.day,date.month,date.year,price]));
+        message = result[0].insertId
+    }else{
+        let query = `UPDATE menu SET _name = ?, price = ? WHERE id = ?;`
+        await pool.query(query,[name,price,menuId])
+        message = "Ваш запит опрацьовано успішно!"
+    }
+
+    res.status(200).send(JSON.stringify(message))
 })
-.put(async (req,res)=>{})
-.delete(async (req,res)=>{})
+.delete(async (req,res)=>{
+    console.log("Delete: ",req.body)
+    res.send(200)
+})
 
 
 

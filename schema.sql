@@ -73,8 +73,8 @@ CREATE TABLE menu(
 );
 
 CREATE TABLE menu_ingridients(
-    menu_id INTEGER,
-    ingridient_id INTEGER,
+    menu_id INTEGER NOT NULL,
+    ingridient_id INTEGER NOT NULL,
 
     FOREIGN KEY(menu_id) REFERENCES menu(id),
     FOREIGN KEY(ingridient_id) REFERENCES ingridient(id)

@@ -161,7 +161,7 @@ async function prepareAndSendRequest(event){
 }
 
 async function sendRequest(obj,type) {
-    let info = {date:date,menuId:menu.id};
+    let info = {date:date,menuId: menu.id ? menu.id : null};
     obj.info = info;
 
     let response = await fetch("/menu",{
@@ -174,7 +174,12 @@ async function sendRequest(obj,type) {
     if(response.status != 200){
         throw new Error(await response.text())
     }else{
-        alert(await response.text())
+        if(type == "PUT" && !menu.id){
+            menu.id = await response.text();
+            console.log(menu.id)
+        }else{
+            alert(await response.text())
+        }
     }
 }
 
