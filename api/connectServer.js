@@ -23,7 +23,7 @@ async function connectServer(app){
     app.use(cookieParser());
     app.use(express.json())
     app.use(cors({origin:["localhost:3000"],credentials:true}))
-    
+
     app.get("/static/:dir/:file",(req,res)=>{
         let MIMEType = mimeTypes[req.params.file.split(".")[1]];
         let base = path.join(__dirname,"static");
@@ -39,6 +39,7 @@ async function connectServer(app){
         res.sendFile(filePath);
     })
     
+
     
 
     app.listen(process.env.PORT,()=>{

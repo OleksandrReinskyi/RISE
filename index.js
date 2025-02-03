@@ -5,21 +5,36 @@ import jwt from "jsonwebtoken"
 import fs, { access } from "fs"
 import path from "path"
 import rateLimit from "express-rate-limit";
-
+import multer from "multer";
 
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
-import {accessError, loginError, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
+import {accessError, loginError, successMessage, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
 
 const salt = bcrypt.genSaltSync(10);
 const jwt_secret = process.env.JWT_SECRET;;
 const stopOrdersHour = 9;
+
+
 
 const SQLUserType = { // must have the same values as SQL table "user_type"
     pupil:1,
     teacher:2,
     admin:3
 }
+
+const ingridientStorage = multer.diskStorage({
+        destination:function(req,file,cb){
+            cb(null,"static/imgs/")
+        },
+        filename:function(req,file,cb){
+            const extension = path.extname(file.originalname);
+            cb(null, `ingridient-${Date.now()}${extension}`);
+        }
+
+    })
+
+const multerIngridientsUpload = multer({storage:ingridientStorage})
 
 const TextUserType = ["pupil","teacher","admin"]
 
@@ -78,13 +93,13 @@ function verifyJWT(token){ // makes JWT verification async to control it more co
 function renderHomeJWT(req,res,type){ // renders the home page accroding to logined userType
     switch(type){
         case SQLUserType.teacher: 
-            res.render("Home.ejs",{admin:false});
+            res.render("Home.ejs");
             break;
         case SQLUserType.pupil:
-            res.render("Home.ejs",{admin:false});
+            res.render("Home.ejs");
             break;
         case SQLUserType.admin:
-            res.render("Home.ejs",{admin:true});
+            res.render("Home.ejs");
             break;
         default:
             res.status(404).send(userTypeError.message);
@@ -166,7 +181,25 @@ dotenv.config();
 const app = express();
 connectServer(app);
 let pool = await connectDB();
- 
+
+app.use((req,res,next)=>{ // Admin check middleware for header 
+    if(req.cookies.token){
+        verifyJWT(req.cookies.token).then((data)=>{
+            if(data.user_type == SQLUserType.admin){
+                res.locals.admin = true; 
+            }else{
+                res.locals.admin = false;
+            }
+            next()
+        }).catch((err)=>{
+            next()
+        })
+    }else{
+        next()
+    }
+
+})
+
 app.get("/",errorHandler(async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
     if(info){
@@ -288,7 +321,6 @@ app.post("/home/export",errorHandler(async (req,res)=>{
         }
         finalObj[className] = classObj;
     }
-
     res.send(JSON.stringify(finalObj))
 }))
 
@@ -418,6 +450,8 @@ app.route("/classes")
 
 }))
 
+
+
 app.route("/menu")
 .get(errorHandler(async (req,res)=>{
     let info = await redirectJWT(req,res,"/login");
@@ -452,17 +486,7 @@ app.route("/menu")
     }
     })
 }))
-.post(errorHandler(async (req,res)=>{
-    const newIngridients = req.body.insertIngridients;
-    const date = req.body.info.date;
-    const menuId = req.body.info.menuId;
-    let query = `INSERT INTO menu_ingridients (menu_id,ingridient_id) VALUES (?,?)`
-    for await(let i of newIngridients){
-        await pool.query(query,[menuId,i])
-    }
-    res.status(200).send("Запит виконано успішно!")
-
-}))
+.post(errorHandler(updateMenu))
 .put(async (req,res)=>{
     const {name,price} = req.body;
     const date = req.body.info.date;
@@ -476,17 +500,104 @@ app.route("/menu")
     }else{
         let query = `UPDATE menu SET _name = ?, price = ? WHERE id = ?;`
         await pool.query(query,[name,price,menuId])
-        message = "Ваш запит опрацьовано успішно!"
+        message = successMessage;
     }
 
     res.status(200).send(JSON.stringify(message))
 })
-.delete(async (req,res)=>{
-    console.log("Delete: ",req.body)
-    res.send(200)
-})
+.delete(errorHandler(updateMenu))
 
 
+async function updateMenu(req,res){
+    let info = await redirectJWT(req,res,"/login");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+    const menuId = req.body.info.menuId;
+    let ingridients;
+    let query;
+
+    if(req.method=="POST"){
+        ingridients = req.body.insertIngridients;
+        query = `INSERT INTO menu_ingridients (menu_id,ingridient_id) VALUES (?,?)`
+    }else if(req.method=="DELETE"){
+        ingridients = req.body.deleteIngridients;
+        query = `DELETE FROM menu_ingridients WHERE menu_id=? AND ingridient_id = ?;`
+    }
+
+    for await(let i of ingridients){
+        await pool.query(query,[menuId,i])
+    }
+    res.status(200).send(successMessage)
+}
+
+app.route("/control/ingridients")
+.get(errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+    let ingridientsQuery = `SELECT * FROM ingridient`;
+    let ingridients = (await pool.query(ingridientsQuery))[0]
+
+    res.render("Admin/IngridientsControl.ejs",{data:ingridients})
+}))
+.put(multerIngridientsUpload.single("img"),errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+
+    let imagePath = "imgs/" + req.file.filename;
+    let {name,desc} = req.body;
+    let query = "INSERT INTO ingridient (_name,photo,_description) VALUES (?,?,?);"
+    let createdIngr = (await pool.query(query,[name,imagePath,desc]))[0].insertId;
+    res.status(200).send(JSON.stringify({id:createdIngr, photo:imagePath,name:name,desc:desc}))
+
+}))
+.delete(errorHandler(async(req,res)=>{
+    let info = await redirectJWT(req,res,"/");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+    let {img,id} = req.body;
+
+    let ingridientDeleteQuery = "DELETE FROM ingridient WHERE id = ?";
+    
+    await pool.query(ingridientDeleteQuery,[id]); // RELATIVE PATHS MAY CHANGE WHEN REFACTORING
+    fs.unlink(path.join("static",img),(err)=>{
+        if(err) throw err;
+    });
+    res.status(200).send(successMessage)
+}))
+.post(multerIngridientsUpload.single("img"), errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+
+    let {name,desc,prevImg,id} = req.body;
+    
+    let query = "UPDATE ingridient SET _name = ?, _description = ?, photo = ? WHERE id = ?"
+    let imagePath = "imgs/" + req.file.filename;
+
+    await pool.query(query,[name,desc,imagePath,id])
+
+    fs.unlink(path.join("static",prevImg),(err)=>{
+        if(err) throw err;
+    });
+
+    res.status(200).send(JSON.stringify({photo:imagePath,name:name,desc:desc}))
+
+}))
+
+app.route("/dashboard")
+ 
 
 app.route("/profile")
 .get(errorHandler(async (req,res)=>{ 
@@ -561,4 +672,5 @@ app.use((err, req, res, next) => {
 // })
 
 // app.use("/login",loginLimiter)
+
 

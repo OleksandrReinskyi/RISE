@@ -76,8 +76,8 @@ CREATE TABLE menu_ingridients(
     menu_id INTEGER NOT NULL,
     ingridient_id INTEGER NOT NULL,
 
-    FOREIGN KEY(menu_id) REFERENCES menu(id),
-    FOREIGN KEY(ingridient_id) REFERENCES ingridient(id)
+    FOREIGN KEY(menu_id) REFERENCES menu(id) ON DELETE CASCADE,
+    FOREIGN KEY(ingridient_id) REFERENCES ingridient(id) ON DELETE CASCADE
 );
 
 INSERT INTO class VALUES(1,"11-A");

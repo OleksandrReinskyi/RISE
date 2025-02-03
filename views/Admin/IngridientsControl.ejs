@@ -1,0 +1,28 @@
+<%- include("../partials/Header.ejs")%>
+<main>
+    <form id="new-ingridient__form">
+        <label>Виберіть зображення інгрідієнту: <input required type="file" name="img" id="form__img"></label>
+        <label for="">Введіть ім'я інгрідієнту: <input required type="text" name="name" id="form__name"></label>
+        <textarea required id="form__desc" name="desc" placeholder="Введіть опис інгрідієнту..."></textarea>
+        <button type="submit" id="form__submit">Додати новий інгрідієнт</button>
+    </form>
+    <section id="ingridients">
+        <div id="ingridients__body">
+            <% data.map((item)=>{ %>
+                <div class="ingridient" data-id="<%= item.id %>">
+                    <div class="ingridient__container">
+                        <img class="ingridient__img" src="../<%= item.photo %>" alt="">
+                        <p class="ingridient__name"><%= item._name %></p>
+                        <p class="ingridient__description"><%= item._description %></p>
+                    </div>
+                    <div class="ingridient__control">
+                        <button onclick="deleteButton(event)" class="ingridient__delete">Видалити</button>
+                        <button onclick="changeButton(event)" class="ingridient__change">Змінити</button>
+                    </div>
+                </div>
+            <%});%>
+        </div>
+    </section>
+    <script src="../JS/Admin/IngridientsControl.js" defer></script>
+</main>
+

@@ -1,8 +1,11 @@
 import XLSX from "./../Utils/xlsx.bundle.js" // very unsafe import (copy-pasted file from node_module into this directory)
+import { currentMonth,currentYear } from "../RenderHome.js";
+
 
 const exportButton = document.getElementById("export_button");
 let url = "/home/export"
 let rbgForPrivileged = "f5ce42";
+
 
 exportButton.addEventListener("click",async (event)=>{
     try{
@@ -22,7 +25,6 @@ exportButton.addEventListener("click",async (event)=>{
             for(let index in data){
                 const ws = XLSX.utils.aoa_to_sheet([[]]);
                 let item = data[index];
-
                 let days = []; // Create days arr for columns in excel sheet
                 for(let i of (((Object.values(item)[0])["orders"]).keys())){
                     let index = i+1;

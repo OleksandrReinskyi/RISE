@@ -25,6 +25,7 @@
         </table>
 
     </section> 
+
     <% if(admin) {%>
         <div id="prompt" class="hidden" > 
             <div id="prompt_wrapper">
@@ -43,8 +44,9 @@
             }
         </style>
         <button id="export_button">Експортувати дані</button>
+        <script defer type="module" src="JS/Admin/ModeSwitch.js"></script> <!--For unknown reason the order is strict-->
         <script defer type="module" src="JS/Admin/Export.js"></script>
-        <script defer type="module" src="JS/Admin/ModeSwitch.js"></script>
+
     <% } %>
     <script defer type="module" src="JS/RenderHome.js"></script>
 </main>

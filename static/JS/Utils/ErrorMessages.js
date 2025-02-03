@@ -17,3 +17,4 @@ export let loginError = new Error("Неправильний логін або п
 export let unforseenError = new Error("Йой, сталася непередбачувана помилка, повідомте про неї адміністратора!")
 export let userTypeError = new Error("Такого типу користувача не існує!")
 export let accessError = new Error("У вас немає доступу до даної сторінки!")
+export let successMessage = "Ваш запит успішно опрацьовано!"

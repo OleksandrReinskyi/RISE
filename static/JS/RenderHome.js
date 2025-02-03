@@ -38,8 +38,9 @@ let numberOfDays = numberOfRows * 7;
 
 const date = new Date();
 
-let currentMonth = date.getMonth();
-let currentYear = date.getFullYear();
+export let currentMonth = date.getMonth();
+export let currentYear = date.getFullYear();
+
 
 function loadTable(currMonth,currYear){
     table.innerHTML = "";

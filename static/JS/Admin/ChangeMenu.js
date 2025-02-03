@@ -10,7 +10,6 @@ let normalizedStartIngridients = normalizeData(ingridients);
 let normalizedAllIngridients = normalizeData(allIngridients);
 
 let currentIngridients = [...(Object.keys(normalizedStartIngridients))]; // global object, is not passed to functions
-console.log(currentIngridients)
 
 function normalizeData(data){
     let obj = {};
