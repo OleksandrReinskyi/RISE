@@ -1,0 +1,19 @@
+<%- include("../partials/Header.ejs")%>
+<main>
+    <section id="classes">
+        <% for(let i in JSON.parse(data)){%>
+            <div class="class">
+                <h1><%= i%> паралель</h1>
+                <svg data-name="<%=i%>"></svg>
+            </div>
+        <%}%>
+    </section>
+</main>
+<style>
+    :root{
+        font-size: 0.1vw;
+    }
+</style>
+<%- include("../partials/ServerData.ejs")%>
+<script defer src="https://d3js.org/d3.v7.min.js"></script>
+<script defer src="JS/Admin/Dashboard.js"></script>

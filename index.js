@@ -596,7 +596,41 @@ app.route("/control/ingridients")
 
 }))
 
+
+function dataSort(data){
+    let sortedObj = {}
+    for(let i of data){
+        let name = i.class.replace(/-.*/g,"");
+        if(!sortedObj[name]){
+            sortedObj[name] = {}
+        }
+        sortedObj[name][i.class] = i.orders;
+    }
+    return sortedObj;
+}
+
 app.route("/dashboard")
+.get(errorHandler(async (req,res)=>{
+    let info = await redirectJWT(req,res,"/");
+    if(info.user_type != SQLUserType.admin){
+        res.status(403).send(accessError.message);
+        return;
+    }
+
+    let {day,month,year} = req.query;
+    let query = `SELECT COUNT(ord.id) as "orders", cls._name as "class" FROM \`order\` as ord 
+                RIGHT JOIN pupil as ppl 
+                ON ppl.id = ord.user_id 
+                LEFT JOIN class as cls ON ppl.class = cls.id
+                WHERE ord._day = ?
+                AND ord._month = ?
+                AND ord._year = ?
+                GROUP BY ppl.class;`
+
+    let data = dataSort((await pool.query(query,[day,month,year]))[0]);
+
+    res.render("Admin/Dashboard.ejs",{data:JSON.stringify(data)})
+}))
  
 
 app.route("/profile")
