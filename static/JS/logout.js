@@ -5,6 +5,4 @@ document.querySelector("#logout").addEventListener("click",async(event)=>{
         method:"POST",
         credentials:"include"
     })
-
-    
 })

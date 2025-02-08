@@ -52,7 +52,8 @@ CREATE TABLE `order`(
     user_id integer NOT NULL,
     user_type integer NOT NULL,
 
-    FOREIGN KEY (user_type) REFERENCES user_type(id)
+    FOREIGN KEY (user_type) REFERENCES user_type(id),
+    UNIQUE (user_id, user_type, _day,_month,_year)
 );
 
 CREATE TABLE ingridient(

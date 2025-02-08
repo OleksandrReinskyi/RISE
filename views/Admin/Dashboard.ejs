@@ -8,12 +8,13 @@
             </div>
         <%}%>
     </section>
+    <section id="info">
+        <p id="info__allsum"></p>
+        <button id="info__export">Експортувати</button>
+        <a href="" id="info__link"></a>
+    </section>
 </main>
-<style>
-    :root{
-        font-size: 0.1vw;
-    }
-</style>
+
 <%- include("../partials/ServerData.ejs")%>
 <script defer src="https://d3js.org/d3.v7.min.js"></script>
-<script defer src="JS/Admin/Dashboard.js"></script>
+<script defer type="module" src="JS/Admin/Dashboard.js"></script>

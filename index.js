@@ -1,17 +1,15 @@
 import express from "express";
 import dotenv from "dotenv"
-import bcrypt, { hash } from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
-import fs, { access } from "fs"
+import fs from "fs"
 import path from "path"
-import rateLimit from "express-rate-limit";
 import multer from "multer";
 
 import connectServer from "./api/connectServer.js";
 import connectDB from "./api/connectDB.js";
 import {accessError, loginError, successMessage, unforseenError, userTypeError} from "./static/JS/Utils/ErrorMessages.js"
 
-const salt = bcrypt.genSaltSync(10);
 const jwt_secret = process.env.JWT_SECRET;;
 const stopOrdersHour = 9;
 
@@ -681,7 +679,7 @@ async function generateHashedPassword(password){
 
 
 
-//Error handling 
+
 
 app.use((err, req, res, next) => {
     let date = new Date();
@@ -697,14 +695,6 @@ app.use((err, req, res, next) => {
 });
 
 
-//Login limiter (not working)
 
-// let loginLimiter = rateLimit({
-//     windowMs:15*60*1000,
-//     max: 5,
-//     message:"Надійшло дуже багато спроб ввійти з Вашої адреси. Спробуйте ше раз пізніше"
-// })
-
-// app.use("/login",loginLimiter)
 
 
