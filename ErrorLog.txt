@@ -1,0 +1,168 @@
+
+
+
+ Sun Feb 09 2025 13:49 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/login  
+ Error: Failed to lookup view "Login.ejs" in views directory "E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views"
+    at Function.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\application.js:597:17)
+    at ServerResponse.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\response.js:1049:7)
+    at res.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getView (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:19:13)
+
+
+ Sun Feb 09 2025 13:50 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/login  
+ Error: Failed to lookup view "Login.ejs" in views directory "E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\views"
+    at Function.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\application.js:597:17)
+    at ServerResponse.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\response.js:1049:7)
+    at res.render (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express-ejs-layouts\lib\express-layouts.js:77:18)
+    at getView (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:19:13)
+
+
+ Sun Feb 09 2025 13:58 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 13:58 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:0 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:1 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\login.js'
+
+
+ Sun Feb 09 2025 14:3 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:4 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:5 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/static/JS/Login.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\Login.js'
+
+
+ Sun Feb 09 2025 14:5 
+ IP: undefined, METHOD: POST, URL: http://localhost:3000/login  
+ Error: Access denied for user ''@'localhost' (using password: NO)
+    at PromisePool.query (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\mysql2\lib\promise\pool.js:36:22)
+    at findUser (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/models/sqlmodels.js:30:33)
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:35:23)
+    at file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/helpers/Helpers.js:63:25
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:149:13)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:145:7)
+    at Route.dispatch (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:284:15
+
+
+ Sun Feb 09 2025 14:6 
+ IP: undefined, METHOD: POST, URL: http://localhost:3000/login  
+ Error: Access denied for user ''@'localhost' (using password: NO)
+    at PromisePool.query (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\mysql2\lib\promise\pool.js:36:22)
+    at findUser (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/models/sqlmodels.js:30:33)
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:35:23)
+    at file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/helpers/Helpers.js:63:25
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:149:13)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:145:7)
+    at Route.dispatch (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:284:15
+
+
+ Sun Feb 09 2025 14:6 
+ IP: undefined, METHOD: POST, URL: http://localhost:3000/login  
+ Error: Access denied for user ''@'localhost' (using password: NO)
+    at PromisePool.query (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\mysql2\lib\promise\pool.js:36:22)
+    at findUser (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/models/sqlmodels.js:30:33)
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:35:23)
+    at file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/helpers/Helpers.js:63:25
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:149:13)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:145:7)
+    at Route.dispatch (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:284:15
+
+
+ Sun Feb 09 2025 14:8 
+ IP: undefined, METHOD: POST, URL: http://localhost:3000/login  
+ ReferenceError: jwt is not defined
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:52:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+
+ Sun Feb 09 2025 14:8 
+ IP: undefined, METHOD: POST, URL: http://localhost:3000/login  
+ ReferenceError: jwt_secret is not defined
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:52:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+
+ Sun Feb 09 2025 14:9 
+ IP: undefined, METHOD: GET, URL: http://localhost:3000/login  
+ ReferenceError: verifyJWT is not defined
+    at file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/index.js:130:9
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at trim_prefix (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:328:13)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:286:9
+    at Function.process_params (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:346:12)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:280:10)
+    at cors (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\cors\lib\index.js:188:7)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\cors\lib\index.js:224:17
+    at originCallback (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\cors\lib\index.js:214:15)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\cors\lib\index.js:219:13
