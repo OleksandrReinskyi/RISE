@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors"
+import { accessError } from "../helpers/ErrorMessages.js";
 
 
 let __dirname = process.cwd();
@@ -25,13 +26,13 @@ async function connectServer(app){
     app.use(express.json())
     app.use(cors({origin:["localhost:3000"],credentials:true}))
 
-    app.get("/static/:dir/:file",(req,res)=>{
+    app.get("static/:dir/:file",(req,res)=>{
         let MIMEType = mimeTypes[req.params.file.split(".")[1]];
         let base = path.join(__dirname,"static");
         let filePath = path.resolve(base,req.params.dir,req.params.file);
         console.log(filePath)
         if (!filePath.startsWith(base)) {
-            return res.status(403).send("У вас немає доступу до цих файлів!");
+            return res.status(403).send(accessError.message);
         }
     
         res.set({

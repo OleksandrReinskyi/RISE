@@ -1,4 +1,3 @@
-import jwt from "jsonwebtoken"
 
 
 /**
@@ -12,39 +11,6 @@ export function formatData(day,month,year){
 }
 
 
-/**
- * Redirects to location if JWT token is not valid (throws an error).
- * return - undefined in all cases 
- */
-
-export async function redirectJWT(req,res,location){
-    try{
-        return await verifyJWT(req.cookies.token)
-    }catch{
-        res.redirect(location);
-        return null;
-    }
-
-}
-
-/**
- * Makes jwt verification promise-like to use it with async 
- * @param {JsonWebKey} token 
- * @returns {Promise} 
- */
-
-export function verifyJWT(token){ 
-    return new Promise((res,rej)=>{
-        jwt.verify(token,process.env.JWT_SECRET,{},(err,info)=>{
-            if(err){
-                rej(err);
-            }else{
-                res(info);
-            }
-        })
-    })
-
-} 
 
 /**
  * Changes the given function this way:
@@ -60,6 +26,13 @@ export function verifyJWT(token){
 
 export function errorHandler(func){
     return (req,res,next)=>{
-        Promise.resolve(func(req,res,next)).catch(next)
+        try{
+            let result = func(req,res,next);
+            if(result instanceof Promise){
+                result.catch(next)
+            }
+        }catch(err){
+            next(err)
+        }
     }
 }

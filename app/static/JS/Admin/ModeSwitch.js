@@ -10,6 +10,13 @@ closePromptButton.addEventListener("click",(event)=>{
     prompt.classList.add("hidden")
 })
 
+/**
+ * If an admin is logged in the special window will be displayed each time the link is clicked with buttons to go to either 
+ * - to menu redaction mode
+ * - to ordering food for every class
+ * - to dashboard for the selected day
+ */
+
 window.displayPrompt = function(event){
     event.preventDefault()
     let linkInfo = event.target.getAttribute("href");

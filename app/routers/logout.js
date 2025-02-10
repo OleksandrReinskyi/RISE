@@ -3,8 +3,9 @@ import express from "express";
 
 //Local imports
 import { errorHandler } from "../helpers/Helpers.js";
-import { getView, login } from "../controllers/login.js";
-import { redirectMiddleware } from "../middlewares/middlewares.js";
+import {redirectMiddleware } from "../middlewares/middlewares.js";
+import { logout } from "../controllers/logout.js";
+
 
 
 const router = new express.Router();
@@ -12,7 +13,8 @@ const router = new express.Router();
 
 router
 .route("")
-.get(errorHandler(getView))
-.post(errorHandler(login))
+.get(redirectMiddleware,errorHandler(logout))
+
+
 
 export default router;

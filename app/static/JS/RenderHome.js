@@ -1,4 +1,4 @@
-import {formatData} from "./Utils/Helpers.js"
+import {formatData} from "./Utils/helpers.js"
 
 const table = document.querySelector("#table__body");
 let currentMonthTag = document.querySelector("#current__month");
@@ -6,17 +6,9 @@ let buttonPrev = document.querySelector("#button__prev");
 let buttonNext = document.querySelector("#button__next");
 
 /**
- * 1) Load current month 
- * 2) Render table for the current month
- * - get the dayOfWeek of the first day of current month
- * - get the number of days in current month
- * - loop through them and create rows
- * 3) Event listener to buttons 
- * - If curr month = 0, decrement the year
- * - If curr month = 11, increment the year
+ * Loads a visual calendar with each cell being a link to order/date... page. Handles admin differences 
  */
 
-const daysArray = ["Пн","Вт","Ср","Чт","Пт","Сб","Нд"]
 const months = [
     "Січень",   // January
     "Лютий",    // February
@@ -33,8 +25,6 @@ const months = [
 ];
 
 let numberOfRows = 6;
-let numberOfDays = numberOfRows * 7;
-
 
 const date = new Date();
 
@@ -83,7 +73,7 @@ function createCell(day,month,year){
         link.setAttribute("href",href);
         link.innerText = text;
 
-        if(window.displayPrompt){
+        if(window.displayPrompt){ // a function that is created in modeSwitch.js
             link.addEventListener("click",window.displayPrompt) // e.g if we are in admin mode (security is questionable)
         }
         cell.insertAdjacentElement("beforeend",link)

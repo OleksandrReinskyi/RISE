@@ -2,6 +2,13 @@ import XLSX from "./../Utils/xlsx.bundle.js" // very unsafe import (copy-pasted 
 import { currentMonth,currentYear } from "../RenderHome.js";
 
 
+
+/**
+ * Makes a request to server to send data for all classes orders for this month and then exports it in .csv file
+ * Warning: very resource demanding process 
+ */
+
+
 const exportButton = document.getElementById("export_button");
 let url = "/home/export"
 let rbgForPrivileged = "f5ce42";
@@ -56,11 +63,10 @@ exportButton.addEventListener("click",async (event)=>{
             XLSX.writeFile(wb,`Звіт ${currentMonth+1}.${currentYear}.xlsx`);
             
         }else{
-            throw new Error(response.statusText)
+            throw new Error(await response.text())
         }
     }catch(e){
-        alert("Сталася непередбачувана помилка!")
-        console.error(e)
+        alert(e)
     }
     
 

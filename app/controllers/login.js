@@ -1,8 +1,8 @@
 import { SQLUserType } from "../helpers/data.js";
 import { loginError, successMessage } from "../helpers/ErrorMessages.js";
-import { verifyJWT } from "../helpers/Helpers.js";
 import { findUser } from "../models/sqlmodels.js";
 import jwt from "jsonwebtoken"
+import { verifyJWT } from "../services/jwtservice.js";
 
 /**
  * Cheks for JWT token. If it is present => redirects to /home route

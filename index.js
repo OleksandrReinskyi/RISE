@@ -9,12 +9,13 @@ import multer from "multer";
 import connectServer from "./app/api/connectServer.js";
 // import pool from "./app/api/connectDB.js";
 import {accessError, loginError, successMessage, unforseenError, userTypeError} from "./app/helpers/ErrorMessages.js"
+
+import { adminCheck, errorLogger, redirectMiddleware } from "./app/middlewares/middlewares.js";
+
+
 import loginRouter from "./app/routers/login.js";
-import { adminCheck, errorLogger } from "./app/middlewares/middlewares.js";
-
-
-
-
+import homeRouter from "./app/routers/home.js"
+import logoutRouter from "./app/routers/logout.js"
 
 
 
@@ -124,10 +125,15 @@ async function requestFromUser(req,res){ //handles delete/post request on /order
 dotenv.config();
 
 const app = express();
+
 connectServer(app);
 
-app.use(errorLogger)
+
 app.use(adminCheck)
+app.use(redirectMiddleware)
+
+
+
 app.use("/login",loginRouter)
 
 
@@ -137,79 +143,11 @@ app.get("/",(req,res,next)=>{
 
 
 
-// app.get('/home',errorHandler(async (req,res)=>{
-//     let info = await redirectJWT(req,res,"/login");
-//     if(!info) return;
- 
-//     renderHomeJWT(req,res,info.user_type);
-    
-// }))
+app.use("/home",homeRouter)
 
+app.use("/logout",logoutRouter)
 
-// // Data schema {class:{pupil:{orders:[],info:{}}}}
-// app.post("/home/export",errorHandler(async (req,res)=>{ 
-//     let info = await redirectJWT(req,res,"/login");
-
-//     if(info.user_type != SQLUserType.admin){
-//         res.redirect("/home")
-//         return;
-//     }
-
-//     let {month,year} = req.body;
-
-//     let classesQuery = `SELECT * FROM class`;
-//     let classes = (await pool.query(classesQuery))[0];
-
-//     let maxDate = new Date(year,month+1)
-//     maxDate.setDate(maxDate.getDate()-1)
-//     let maxDay = maxDate.getDate();
-
-//     let finalObj = {}
-
-//     for await(let item of classes){
-//         const className = item["_name"];
-//         const classId = item["id"];
-//         let classObj={};
-
-//         let classQuery = `SELECT id,_name,class,privileged FROM pupil WHERE class=?;`
-//         let pupils = (await pool.query(classQuery,[classId]))[0]
-
-//         for(let i of pupils){ // Format data
-//             classObj[i._name] = {
-//                 orders:[],
-//                 info: {
-//                     id:i.id,
-//                     privileged:i.privileged
-//                 }
-//             }
-//         }
-
-//         for (let day = 1;day<=maxDay;day++){
-//             let query = `SELECT ppl._name,
-//             CASE 
-//                 WHEN ord.user_id IS NOT NULL THEN "Так"
-//                 ELSE "Ні"
-//             END AS ordered
-//             FROM pupil AS ppl
-//             Left JOIN \`order\` AS ord
-//                 ON ppl.id = ord.user_id
-//                 AND ord._day = ? 
-//                 AND ord._month = ? 
-//                 AND ord._year = ?
-//                 AND ord.user_type = ?
-//             WHERE ppl.class = ?;
-//             `
-//             let orders = (await pool.query(query,[day,month,year,SQLUserType.pupil,classId]))[0];
-//             for(let order of orders){
-//                 classObj[order._name].orders.push(order.ordered)
-//             }
-            
-//         }
-//         finalObj[className] = classObj;
-//     }
-//     res.send(JSON.stringify(finalObj))
-// }))
-
+app.use(errorLogger)
 
 // async function getMenu(day,month,year){
 //     let menuQuery = `
@@ -553,9 +491,6 @@ app.get("/",(req,res,next)=>{
 // }))
 
 
-// app.route("/logout").get(errorHandler((req,res)=>{
-//     res.cookie("token","").redirect("/login"); 
-// }))
 
 
 

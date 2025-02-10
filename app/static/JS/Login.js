@@ -22,7 +22,7 @@ async function login(event){
     
     
         if(!response.ok){
-            alert("Неправильний логін або пароль!");
+            alert(await response.text());
         }else{
             window.location.replace("login","home");
         }
