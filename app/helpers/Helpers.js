@@ -36,3 +36,22 @@ export function errorHandler(func){
         }
     }
 }
+
+/**
+ * Checks if user can have an order the day they accessed or not (time limit - 9 a.m each day)
+ * 
+ * @param {Number} dayAccessed 
+ * @param {Number} monthAccessed 
+ * @param {Number} yearAccessed 
+ * @returns {Boolean}
+ */
+
+export function timeCheck(dayAccessed,monthAccessed,yearAccessed){ 
+    const dateNow = (new Date(new Date().toLocaleString('en-US', { timeZone: 'EET' }))).getTime();
+    let dateAccessed = (new Date(yearAccessed, monthAccessed, dayAccessed)).getTime();
+
+    if(dateNow>dateAccessed){
+        return false;
+    }
+    return true;
+}   

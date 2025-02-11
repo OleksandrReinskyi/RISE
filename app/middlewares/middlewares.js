@@ -68,7 +68,16 @@ export async function adminOnly(req,res,next) {
 
 export async function redirectMiddleware(req,res,next){
     if(req.originalUrl != "/login"){
-        await redirectJWT(req,res,"/login");
+        let info = await redirectJWT(req,res,"/login");
+        if(info != null){
+            res.locals.info  = info;
+            next()
+        }else{
+            return;
+        }
+        
+    }else{
+        next();
     }
-    next()
+
 }

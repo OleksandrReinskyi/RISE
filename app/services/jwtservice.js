@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 /**
  * Redirects to location if JWT token is not valid (throws an error).
- * return - undefined in all cases 
  */
 
 export async function redirectJWT(req,res,location){

@@ -1,4 +1,4 @@
-import {idValidityError,timeError,scriptError} from "../Utils/ErrorMessages.js"
+import {idValidityError,timeError,scriptError} from "../../../helpers/ErrorMessages.js"
 let {ordered,menu,canOrderToday} = window.serverData;
 
 const form = document.getElementById("order");

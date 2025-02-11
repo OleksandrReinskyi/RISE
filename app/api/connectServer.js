@@ -26,12 +26,12 @@ async function connectServer(app){
     app.use(express.json())
     app.use(cors({origin:["localhost:3000"],credentials:true}))
 
-    app.get("static/:dir/:file",(req,res)=>{
+    app.get(":dir/:file",(req,res)=>{
         let MIMEType = mimeTypes[req.params.file.split(".")[1]];
         let base = path.join(__dirname,"static");
         let filePath = path.resolve(base,req.params.dir,req.params.file);
-        console.log(filePath)
-        if (!filePath.startsWith(base)) {
+        console.log(filePath.match("ErrorMessages.js"))
+        if (!filePath.startsWith(base) || filePath.match("ErrorMessages.js")) {
             return res.status(403).send(accessError.message);
         }
     

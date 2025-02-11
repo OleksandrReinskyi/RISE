@@ -16,6 +16,8 @@ import { adminCheck, errorLogger, redirectMiddleware } from "./app/middlewares/m
 import loginRouter from "./app/routers/login.js";
 import homeRouter from "./app/routers/home.js"
 import logoutRouter from "./app/routers/logout.js"
+import orderRouter from "./app/routers/order.js"
+import { errorHandler } from "./app/helpers/Helpers.js";
 
 
 
@@ -48,22 +50,6 @@ function timeCheck(dayAccessed,monthAccessed,yearAccessed){
 
 
 
-
-function renderHomeJWT(req,res,type){ // renders the home page accroding to logined userType
-    switch(type){
-        case SQLUserType.teacher: 
-            res.render("Home.ejs");
-            break;
-        case SQLUserType.pupil:
-            res.render("Home.ejs");
-            break;
-        case SQLUserType.admin:
-            res.render("Home.ejs");
-            break;
-        default:
-            res.status(404).send(userTypeError.message);
-    }
-}
 
 
 
@@ -137,15 +123,17 @@ app.use(redirectMiddleware)
 app.use("/login",loginRouter)
 
 
-app.get("/",(req,res,next)=>{
+app.get("/",errorHandler((req,res,next)=>{
     res.redirect("/login")
-})
+}))
 
 
 
 app.use("/home",homeRouter)
 
 app.use("/logout",logoutRouter)
+
+app.use("/order",orderRouter)
 
 app.use(errorLogger)
 
@@ -164,7 +152,7 @@ app.use(errorLogger)
 //             info:{day:day,
 //                 month:month,
 //                 year:year,
-//             }}
+//             }} 
 //     }else{
 //         thisDayIngridients = (await pool.query(ingridientsQuery,[thisDayMenu.id]))[0]
 //         menu = {
@@ -211,8 +199,7 @@ app.use(errorLogger)
 
 // app.route("/order")
 // .get(errorHandler(async(req,res)=>{
-//     let info = await redirectJWT(req,res,"/login");
-//     if(!info) return;
+//     let info = res.locals.info
 //     let {day,month,year} = req.query;
     
 //     let userId = info.id; 
