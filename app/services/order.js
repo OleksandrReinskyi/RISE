@@ -66,3 +66,28 @@ export async function getViewTeacherAdmin(req,res,day,month,year,className,clien
 
     res.render("Teacher/Order.ejs",{data:clientData});
 }
+
+
+
+/**
+ * Executes either a delete or post query for order for multiple students
+ * @param {Object} body  //object from user
+ * @param {String} query // the query
+ */
+
+export async function handleTeacherAdminRequest(body,query) { 
+    for await(let item of body.pupils){
+        await pool.query(query,[item,SQLUserType.pupil,body.day,body.month,body.year]);
+    } 
+}
+
+
+/**
+ * Executes either a delete or post query for order for one user
+ * @param {Number} id // student's id
+ * @param {Object} body // object from user
+ * @param {String} query // the query
+ */
+export async function handleStudentRequest(id,body,query) { 
+    await pool.query(query,[id,SQLUserType.pupil,body.day,body.month,body.year]);
+}

@@ -34,3 +34,11 @@ export let classOrders = `SELECT ppl.id as user_id, _name, privileged,
             AND ord.user_type = ?
         WHERE ppl.class = ?;
         `
+
+
+export let deleteOrder = `DELETE FROM \`order\` 
+        WHERE user_id = ? AND user_type = ? 
+        AND _day=? AND _month=? AND _year=?;`;
+
+export let insertOrder = `INSERT INTO \`order\` (user_id,user_type,_day,_month,_year) 
+        VALUES(?,?,?,?,?);`

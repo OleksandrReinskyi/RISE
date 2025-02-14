@@ -1,4 +1,4 @@
-import {formatData} from "./Utils/Helpers.js"
+import {formatData} from "./Utils/helpers.js"
 //Adding menu info on page 
 
 

@@ -29,3 +29,33 @@
     at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:149:13)
     at Route.dispatch (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:119:3)
     at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+
+
+ 0: Fri Feb 14 2025 8:4 
+ METHOD: POST, URL: http://localhost:3000/login  
+ TypeError: Cannot read properties of undefined (reading 'length')
+    at findUser (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/models/sqlmodels.js:35:14)
+    at login (file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/controllers/login.js:35:23)
+    at file:///E:/%D0%A0%D0%B5%D0%B9%D0%BD%D1%81%D1%8C%D0%BA%D0%B8%D0%B9%20%D0%9E%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%AE%D1%80%D1%96%D0%B9%D0%BE%D0%B2%D0%B8%D1%87/Side%20quests/RISE/Project/app/helpers/Helpers.js:30:26
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:149:13)
+    at next (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:145:7)
+    at Route.dispatch (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\route.js:119:3)
+    at Layer.handle [as handle_request] (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\layer.js:95:5)
+    at E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\node_modules\express\lib\router\index.js:346:12)
+
+
+ 0: Fri Feb 14 2025 8:9 
+ METHOD: GET, URL: http://localhost:3000/JS/RenderHome.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\JS\RenderHome.js'
+
+
+ 1: Fri Feb 14 2025 8:9 
+ METHOD: GET, URL: http://localhost:3000/home/login  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\home\login'
+
+
+ 2: Fri Feb 14 2025 8:9 
+ METHOD: GET, URL: http://localhost:3000/home/JS/RenderHome.js  
+ Error: ENOENT: no such file or directory, stat 'E:\Рейнський Олександр Юрійович\Side quests\RISE\Project\static\home\JS'
